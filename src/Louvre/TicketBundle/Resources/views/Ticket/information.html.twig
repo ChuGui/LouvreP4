@@ -1,0 +1,15 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Information{% endblock %}
+
+{% block header %} Information {%  endblock %}
+{% block body %}
+<div id="container">
+    <ul>
+        <li>Nom/prenom</li>
+        <li>Date de naissance => Tarif réduit?</li>
+        <li>Pays</li>
+        <li>Tarif réduit (case à cocher)</li>
+    </ul>
+</div>
+{% endblock %}

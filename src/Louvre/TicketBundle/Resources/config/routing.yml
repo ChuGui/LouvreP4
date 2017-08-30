@@ -1,3 +1,17 @@
 louvre_ticket_homepage:
     path:     /
-    defaults: { _controller: LouvreTicketBundle:Default:index }
+    defaults: { _controller: LouvreTicketBundle:Ticket:home }
+
+louvre_ticket_information:
+    path:     /information
+    defaults: { _controller: LouvreTicketBundle:Ticket:information }
+
+louvre_ticket_stripe:
+    path:     /stripe
+    defaults: { _controller: LouvreTicketBundle:Ticket:stripe }
+
+louvre_ticket_recap:
+    path:     /recap
+    defaults: { _controller: LouvreTicketBundle:Ticket:recap }
+
+

@@ -1,0 +1,16 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Stripe{% endblock %}
+    {% block header %} STRIPE {%  endblock %}
+{% block body %}
+
+<div id="container">
+    <ul>
+        <li>Récap paiement</li>
+        <li>Total à payer</li>
+        <li>Plateform Stripe <br>email <br>carte bleue</li>
+    </ul>
+</div>
+
+{% endblock %}
+
