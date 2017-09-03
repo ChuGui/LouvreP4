@@ -48,6 +48,13 @@ class TicketsOrder
      */
     private $tickets;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codeOrder", type="string", length=255)
+     */
+    private $codeOrder;
+
 
     /**
      * Get id
@@ -133,4 +140,69 @@ class TicketsOrder
         return $this->bookingDate;
     }
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tickets = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add ticket
+     *
+     * @param \Louvre\TicketBundle\Entity\Ticket $ticket
+     *
+     * @return TicketsOrder
+     */
+    public function addTicket(\Louvre\TicketBundle\Entity\Ticket $ticket)
+    {
+        $this->tickets[] = $ticket;
+
+        return $this;
+    }
+
+    /**
+     * Remove ticket
+     *
+     * @param \Louvre\TicketBundle\Entity\Ticket $ticket
+     */
+    public function removeTicket(\Louvre\TicketBundle\Entity\Ticket $ticket)
+    {
+        $this->tickets->removeElement($ticket);
+    }
+
+    /**
+     * Get tickets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTickets()
+    {
+        return $this->tickets;
+    }
+
+    /**
+     * Set codeOrder
+     *
+     * @param string $codeOrder
+     *
+     * @return TicketsOrder
+     */
+    public function setCodeOrder($codeOrder)
+    {
+        $this->codeOrder = $codeOrder;
+
+        return $this;
+    }
+
+    /**
+     * Get codeOrder
+     *
+     * @return string
+     */
+    public function getCodeOrder()
+    {
+        return $this->codeOrder;
+    }
 }

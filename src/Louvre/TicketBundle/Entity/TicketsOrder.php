@@ -3,6 +3,7 @@
 namespace Louvre\TicketBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * TicketsOrder
@@ -39,6 +40,7 @@ class TicketsOrder
      * @var \DateTime
      *
      * @ORM\Column(name="bookingDate", type="datetime")
+     * @Assert\DateTime()
      */
     private $bookingDate;
 
@@ -47,6 +49,20 @@ class TicketsOrder
      * @ORM\JoinColumn(nullable=false)
      */
     private $tickets;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codeOrder", type="string", length=255)
+     */
+    private $codeOrder;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="paid", type="boolean")
+     */
+    private $paid;
 
 
     /**
@@ -116,7 +132,7 @@ class TicketsOrder
      *
      * @return TicketsOrder
      */
-    public function setBookingDate($bookingDate)
+    public function setBookingDate(\DateTime $bookingDate)
     {
         $this->bookingDate = $bookingDate;
 
@@ -138,6 +154,7 @@ class TicketsOrder
      */
     public function __construct()
     {
+        $this->bookingDate = new \Datetime();
         $this->tickets = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -173,5 +190,29 @@ class TicketsOrder
     public function getTickets()
     {
         return $this->tickets;
+    }
+
+    /**
+     * Set codeOrder
+     *
+     * @param string $codeOrder
+     *
+     * @return TicketsOrder
+     */
+    public function setCodeOrder($codeOrder)
+    {
+        $this->codeOrder = $codeOrder;
+
+        return $this;
+    }
+
+    /**
+     * Get codeOrder
+     *
+     * @return string
+     */
+    public function getCodeOrder()
+    {
+        return $this->codeOrder;
     }
 }

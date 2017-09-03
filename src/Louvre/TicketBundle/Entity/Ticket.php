@@ -59,9 +59,9 @@ class Ticket
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="birthdate", type="datetime")
+     * @ORM\Column(name="birthday", type="datetime")
      */
-    private $birthdate;
+    private $birthday;
 
     /**
      * @var string
@@ -215,27 +215,27 @@ class Ticket
     }
 
     /**
-     * Set birthdate
+     * Set birthday
      *
-     * @param \DateTime $birthdate
+     * @param \DateTime $birthday
      *
      * @return Ticket
      */
-    public function setBirthdate($birthdate)
+    public function setBirthday($birthday)
     {
-        $this->birthdate = $birthdate;
+        $this->birthday = $birthday;
 
         return $this;
     }
 
     /**
-     * Get birthdate
+     * Get birthday
      *
      * @return \DateTime
      */
-    public function getBirthdate()
+    public function getBirthday()
     {
-        return $this->birthdate;
+        return $this->birthday;
     }
 
     /**
