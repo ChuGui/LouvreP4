@@ -2,14 +2,34 @@
 
 {% block title %}{{ parent() }} - Information{% endblock %}
 
-{% block header %} Information {%  endblock %}
+{% block header %} Information {% endblock %}
 {% block body %}
-<div id="container">
-    <ul>
-        <li>Nom/prenom</li>
-        <li>Date de naissance => Tarif réduit?</li>
-        <li>Pays</li>
-        <li>Tarif réduit (case à cocher)</li>
-    </ul>
-</div>
+    <div id="container">
+
+        <div class="well">
+            {{ form_start(form, {'attr' : {'class' : 'form-horizontal'}}) }}
+
+            {{ form_label(form.bookingDate, "Jour de réservation") }}
+            {{ form_widget(form.bookingDate) }}
+            {{ form_label(form.fullday, "Jour de réservation") }}
+            {{ form_widget(form.fullday) }}
+            {{ form_row(form.tickets) }}
+
+            {#{{ form_label(form.discount, "Prénom" ) }}
+            {{ form_widget(form.firstname) }}
+            {{ form_label(form.birthday, "Date de naissance" ) }}
+            {{ form_widget(form.birthday) }}
+            {{ form_label(form.country, "Pays de résidence" ) }}
+            {{ form_widget(form.country) }}
+            {{ form_label(form.discount, "Tarif réduit" ) }}
+            {{ form_widget(form.discount) }}#}
+            <br>
+
+            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+
+
+            {{ form_end(form) }}
+        </div>
+
+    </div>
 {% endblock %}

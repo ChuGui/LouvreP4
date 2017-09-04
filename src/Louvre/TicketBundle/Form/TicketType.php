@@ -8,6 +8,9 @@ use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\Date;
 
 class TicketType extends AbstractType
@@ -20,10 +23,17 @@ class TicketType extends AbstractType
         $builder
             ->add('lastname', TextType::class)
             ->add('firstname', TextType::class)
-            ->add('date', Date::class)
-            ->add('fullday', CheckboxType::class)
-            ->add('birthday', BirthdayType::class)
-            ->add('country',CountryType::class);
+            ->add('birthday', BirthdayType::class, array(
+                'format' => 'dd MM yyyy'
+            ))
+            ->add('country',CountryType::class, array(
+                'placeholder' => 'France'
+            ))
+            ->add('discount', CheckboxType::class, array(
+                'required' => false
+            ))
+            ->add('add', SubmitType::class)
+        ;
     }
     
     /**

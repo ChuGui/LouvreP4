@@ -42,12 +42,7 @@ class Ticket
      */
     private $date;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="fullday", type="boolean")
-     */
-    private $fullday;
+
 
     /**
      * @var bool
@@ -84,10 +79,12 @@ class Ticket
     private $ticketsOrder;
 
 
+
+
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -145,7 +142,7 @@ class Ticket
     /**
      * Set date
      *
-     * @param string $date
+     * @param \DateTime $date
      *
      * @return Ticket
      */
@@ -159,35 +156,11 @@ class Ticket
     /**
      * Get date
      *
-     * @return string
+     * @return \DateTime
      */
     public function getDate()
     {
         return $this->date;
-    }
-
-    /**
-     * Set fullday
-     *
-     * @param boolean $fullday
-     *
-     * @return Ticket
-     */
-    public function setFullday($fullday)
-    {
-        $this->fullday = $fullday;
-
-        return $this;
-    }
-
-    /**
-     * Get fullday
-     *
-     * @return bool
-     */
-    public function getFullday()
-    {
-        return $this->fullday;
     }
 
     /**
@@ -207,7 +180,7 @@ class Ticket
     /**
      * Get discount
      *
-     * @return bool
+     * @return boolean
      */
     public function getDiscount()
     {
@@ -279,7 +252,7 @@ class Ticket
     /**
      * Get price
      *
-     * @return int
+     * @return integer
      */
     public function getPrice()
     {

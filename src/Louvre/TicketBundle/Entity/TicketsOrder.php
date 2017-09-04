@@ -22,12 +22,6 @@ class TicketsOrder
      */
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255)
-     */
-    private $email;
 
     /**
      * @var int
@@ -37,6 +31,13 @@ class TicketsOrder
     private $totalPrice;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="fullday", type="boolean")
+     */
+    private $fullday;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="bookingDate", type="datetime")
@@ -44,18 +45,13 @@ class TicketsOrder
      */
     private $bookingDate;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Louvre\TicketBundle\Entity\Ticket", mappedBy="ticketsOrder")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $tickets;
+
 
     /**
-     * @var string
+     * @ORM\OneToMany(targetEntity="Louvre\TicketBundle\Entity\Ticket", mappedBy="ticketsOrder")
      *
-     * @ORM\Column(name="codeOrder", type="string", length=255)
      */
-    private $codeOrder;
+    private $tickets;
 
     /**
      * @var bool
@@ -65,38 +61,23 @@ class TicketsOrder
     private $paid;
 
 
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tickets = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return TicketsOrder
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
     }
 
     /**
@@ -116,14 +97,36 @@ class TicketsOrder
     /**
      * Get totalPrice
      *
-     * @return int
+     * @return integer
      */
     public function getTotalPrice()
     {
         return $this->totalPrice;
     }
 
+    /**
+     * Set fullday
+     *
+     * @param boolean $fullday
+     *
+     * @return TicketsOrder
+     */
+    public function setFullday($fullday)
+    {
+        $this->fullday = $fullday;
 
+        return $this;
+    }
+
+    /**
+     * Get fullday
+     *
+     * @return boolean
+     */
+    public function getFullday()
+    {
+        return $this->fullday;
+    }
 
     /**
      * Set bookingDate
@@ -132,7 +135,7 @@ class TicketsOrder
      *
      * @return TicketsOrder
      */
-    public function setBookingDate(\DateTime $bookingDate)
+    public function setBookingDate($bookingDate)
     {
         $this->bookingDate = $bookingDate;
 
@@ -150,12 +153,27 @@ class TicketsOrder
     }
 
     /**
-     * Constructor
+     * Set paid
+     *
+     * @param boolean $paid
+     *
+     * @return TicketsOrder
      */
-    public function __construct()
+    public function setPaid($paid)
     {
-        $this->bookingDate = new \Datetime();
-        $this->tickets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->paid = $paid;
+
+        return $this;
+    }
+
+    /**
+     * Get paid
+     *
+     * @return boolean
+     */
+    public function getPaid()
+    {
+        return $this->paid;
     }
 
     /**
@@ -190,29 +208,5 @@ class TicketsOrder
     public function getTickets()
     {
         return $this->tickets;
-    }
-
-    /**
-     * Set codeOrder
-     *
-     * @param string $codeOrder
-     *
-     * @return TicketsOrder
-     */
-    public function setCodeOrder($codeOrder)
-    {
-        $this->codeOrder = $codeOrder;
-
-        return $this;
-    }
-
-    /**
-     * Get codeOrder
-     *
-     * @return string
-     */
-    public function getCodeOrder()
-    {
-        return $this->codeOrder;
     }
 }
