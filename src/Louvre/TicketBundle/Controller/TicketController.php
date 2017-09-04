@@ -4,9 +4,11 @@ namespace Louvre\TicketBundle\Controller;
 
 
 use Louvre\TicketBundle\Entity\TicketsOrder;
+use Louvre\TicketBundle\Entity\Ticket;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Louvre\TicketBundle\Form\TicketsOrderType;
 use Symfony\Component\HttpFoundation\Request;
+use Louvre\TicketBundle\Form\TicketType;
 
 
 
@@ -25,9 +27,11 @@ class TicketController extends Controller
     public function informationAction(Request $request)
     {
         $ticketsOrder = new TicketsOrder();
-        $form = $this->createForm(TicketsOrderType::class, $ticketsOrder);
+        $formTicketsOrder = $this->createForm(TicketsOrderType::class, $ticketsOrder);
+        $ticket = new Ticket();
+        $formTicket = $this->createForm(TicketType::class, $ticket);
 
-        if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
+        if($request->isMethod('POST') && $formTicketsOrder->handleRequest($request)->isValid())
         {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($ticketsOrder);
@@ -37,7 +41,8 @@ class TicketController extends Controller
         }
 
         return $this->render('LouvreTicketBundle:Ticket:information.html.twig', array(
-            'form' => $form->createView(),
+            'formTicketsOrder' => $formTicketsOrder->createView(),
+            'formTicket' => $formTicket->createView()
         ));
     }
 

@@ -7,15 +7,17 @@
     <div id="container">
 
         <div class="well">
-            {{ form_start(form, {'attr' : {'class' : 'form-horizontal'}}) }}
+            {{ form(formTicketsOrder) }}
+            {{ form(formTicket) }}
+            {#{{ form_start(formTicketsOrder, {'attr' : {'class' : 'form-horizontal'}}) }}
 
-            {{ form_label(form.bookingDate, "Jour de réservation") }}
-            {{ form_widget(form.bookingDate) }}
-            {{ form_label(form.fullday, "Jour de réservation") }}
-            {{ form_widget(form.fullday) }}
-            {{ form_row(form.tickets) }}
+            {{ form_label(formTicketsOrder.bookingDate, "Jour de réservation") }}
+            {{ form_widget(formTicketsOrder.bookingDate) }}
+            {{ form_label(formTicketsOrder.fullday, "Jour de réservation") }}
+            {{ form_widget(formTicketsOrder.fullday) }}
 
-            {#{{ form_label(form.discount, "Prénom" ) }}
+
+            #}{#{{ form_label(form.discount, "Prénom" ) }}
             {{ form_widget(form.firstname) }}
             {{ form_label(form.birthday, "Date de naissance" ) }}
             {{ form_widget(form.birthday) }}
@@ -23,12 +25,12 @@
             {{ form_widget(form.country) }}
             {{ form_label(form.discount, "Tarif réduit" ) }}
             {{ form_widget(form.discount) }}#}
-            <br>
-
-            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
 
 
-            {{ form_end(form) }}
+
+
+
+
         </div>
 
     </div>

@@ -3,7 +3,6 @@
 namespace Louvre\TicketBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -11,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 
-class TicketsOrderType extends AbstractType
+class BookingType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -25,7 +24,6 @@ class TicketsOrderType extends AbstractType
             ->add('fullday', CheckboxType::class, array(
                 'required' => false
             ))
-            ->add('tickets', TicketType::class)
             ->add('save', SubmitType::class);
     }
 

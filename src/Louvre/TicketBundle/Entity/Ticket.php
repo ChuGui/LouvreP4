@@ -73,10 +73,10 @@ class Ticket
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Louvre\TicketBundle\Entity\TicketsOrder", inversedBy="tickets")
+     * @ORM\ManyToOne(targetEntity="Louvre\TicketBundle\Entity\Booking", inversedBy="tickets")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $ticketsOrder;
+    private $booking;
 
 
 
@@ -281,5 +281,29 @@ class Ticket
     public function getTicketsOrder()
     {
         return $this->ticketsOrder;
+    }
+
+    /**
+     * Set booking
+     *
+     * @param \Louvre\TicketBundle\Entity\Booking $booking
+     *
+     * @return Ticket
+     */
+    public function setBooking(\Louvre\TicketBundle\Entity\Booking $booking)
+    {
+        $this->booking = $booking;
+
+        return $this;
+    }
+
+    /**
+     * Get booking
+     *
+     * @return \Louvre\TicketBundle\Entity\Booking
+     */
+    public function getBooking()
+    {
+        return $this->booking;
     }
 }
