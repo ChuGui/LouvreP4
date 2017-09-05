@@ -5,9 +5,8 @@
 {% block header %} Information {% endblock %}
 {% block body %}
     <div id="container">
-
+{{ dump() }}
         <div class="well">
-            {{ form(formTicketsOrder) }}
             {{ form(formTicket) }}
             {#{{ form_start(formTicketsOrder, {'attr' : {'class' : 'form-horizontal'}}) }}
 
@@ -25,10 +24,6 @@
             {{ form_widget(form.country) }}
             {{ form_label(form.discount, "Tarif réduit" ) }}
             {{ form_widget(form.discount) }}#}
-
-
-
-
 
 
         </div>

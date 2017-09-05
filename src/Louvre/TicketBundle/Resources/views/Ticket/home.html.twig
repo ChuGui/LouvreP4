@@ -1,5 +1,11 @@
 {% extends "::layout.html.twig" %}
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets 'bundles/louvreticket/css/ticket.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
 
+{% endblock %}
 {% block title %}{{ parent() }} - Accueil{% endblock %}
 
 {% block body %}
@@ -7,9 +13,20 @@
 
     <div id="container">
 
+        {{ form_start(formBooking, {'attr' : {'class' : 'form-horizontal'}}) }}
+        <div class="form-group">
+            <label for="form_quantity">Nombre de billets désirés</label>
+            <input type="number" id="form_quantity" class="form-control" name="form[age]" min="1" max="999" />
+        </div>
+        {{ form_end (formBooking)}}
 
 
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
 {% endblock %}
 
 
