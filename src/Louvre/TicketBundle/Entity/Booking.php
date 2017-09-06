@@ -2,6 +2,7 @@
 
 namespace Louvre\TicketBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -63,8 +64,11 @@ class Booking
      */
     private $buyingDay;
 
+
+
+
     /**
-     * @ORM\OneToMany(targetEntity="Louvre\TicketBundle\Entity\Ticket", mappedBy="booking")
+     * @ORM\OneToMany(targetEntity="Louvre\TicketBundle\Entity\Ticket", mappedBy="booking", cascade={"persist"}))
      * @ORM\JoinColumn(nullable=false)
      */
     private $tickets;
@@ -229,7 +233,9 @@ class Booking
      */
     public function __construct()
     {
-        $this->tickets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tickets = new ArrayCollection();
+        $this->visitingDay = new \Datetime();
+        $this->quantity = 1;
     }
 
     /**
@@ -265,4 +271,5 @@ class Booking
     {
         return $this->tickets;
     }
+
 }

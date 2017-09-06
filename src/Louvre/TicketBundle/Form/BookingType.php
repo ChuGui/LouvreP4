@@ -3,7 +3,8 @@
 namespace Louvre\TicketBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,20 +21,32 @@ class BookingType extends AbstractType
     {
         $builder
             ->add('visitingDay', DateType::class, array(
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
                 'label' => 'Choisissez votre jour de visite',
+                'widget' => 'single_text',
                 'attr' => [
+                    'format' => 'dd-MM-yyyy'
 
-                    'class' => 'form-control input-inline datepicker',
-                    'data-provide' => 'datepicker',
-                    'data-date-format' => 'dd-mm-yyyy'
                 ]
             ))
+
+            ->add('quantity', IntegerType::class, array(
+                'label' => 'Veuillez choisir le nombre de billets',
+                'attr' => array(
+                    'min' => 1,
+                    'max' => 1000
+                )
+            ))
             ->add('fullday', CheckboxType::class, array(
-                'required' => false
+                'required' => false,
+                'label' => 'Cochez la case si vous voulez des billets pour la journée entière (avant 14h00)'
+            ))
+            ->add('tickets', CollectionType::class,array(
+                'entry_type' => TicketType::class,
+                'allow_add' => true,
+                'allow_delete' => true
             ))
             ->add('next', SubmitType::class);
+
     }
 
     /**

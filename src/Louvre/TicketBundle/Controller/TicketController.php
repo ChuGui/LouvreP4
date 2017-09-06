@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Louvre\TicketBundle\Form\BookingType;
 use Symfony\Component\HttpFoundation\Request;
 use Louvre\TicketBundle\Form\TicketType;
-
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 class TicketController extends Controller
@@ -18,11 +18,11 @@ class TicketController extends Controller
     {
         $booking = new Booking();
         $formBooking = $this->createForm(BookingType::class, $booking);
-        if($request->isMethod('POST') && $formBooking->handleRequest($request)->isValid())
-        {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($booking);
-            return $this->redirectToRoute('louvre_ticket_information', array ());
+        if ($request->isMethod('POST') && $formBooking->handleRequest($request)->isValid()) {
+            $this->get('session')->set('booking', $booking);
+            return $this->redirectToRoute('louvre_ticket_information'
+
+            );
         }
 
         return $this->render('LouvreTicketBundle:Ticket:home.html.twig', array(
@@ -32,12 +32,17 @@ class TicketController extends Controller
 
     public function informationAction(Request $request)
     {
+        $booking = $this->get('session')->get('booking');
 
-        $ticket = new Ticket();
-        $formTicket = $this->createForm(TicketType::class, $ticket);
+        {
+            $formTicket = $this->createForm(TicketType::class, $ticket);
+        }
+
+
 
         return $this->render('LouvreTicketBundle:Ticket:information.html.twig', array(
-            'formTicket' => $formTicket->createView()
+            'formTicket' => $formTicket->createView(),
+            'booking' => $booking
         ));
 
 
