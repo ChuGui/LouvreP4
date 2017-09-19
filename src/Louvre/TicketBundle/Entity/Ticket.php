@@ -3,6 +3,7 @@
 namespace Louvre\TicketBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Ticket
@@ -25,6 +26,9 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=255)
+     *
+     * @Assert\NotBlank(message = "Le nom doit être indiqué")
+     *
      */
     private $lastname;
 
@@ -32,6 +36,9 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255)
+     *
+     * @Assert\NotBlank(message = "Le prénom doit être indiqué")
+     *
      */
     private $firstname;
 
@@ -78,7 +85,11 @@ class Ticket
      */
     private $booking;
 
-
+    function __construct()
+    {
+        $this->country = "FR";
+        $this->birthday = new \DateTime();
+    }
 
 
     /**
@@ -292,7 +303,7 @@ class Ticket
      */
     public function setBooking(\Louvre\TicketBundle\Entity\Booking $booking)
     {
-        $this->booking = $booking;
+        $this->booking = $booking ;
 
         return $this;
     }

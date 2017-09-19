@@ -29,13 +29,7 @@ class BookingType extends AbstractType
                 ]
             ))
 
-            ->add('quantity', IntegerType::class, array(
-                'label' => 'Veuillez choisir le nombre de billets',
-                'attr' => array(
-                    'min' => 1,
-                    'max' => 1000
-                )
-            ))
+
             ->add('fullday', CheckboxType::class, array(
                 'required' => false,
                 'label' => 'Cochez la case si vous voulez des billets pour la journée entière (avant 14h00)'

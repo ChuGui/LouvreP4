@@ -4,6 +4,7 @@ namespace Louvre\TicketBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Booking
@@ -51,9 +52,9 @@ class Booking
     private $fullday;
 
     /**
-     * @var \DateTime
+     * @var \date
      *
-     * @ORM\Column(name="visitingDay", type="datetime")
+     * @ORM\Column(name="visitingDay", type="date")
      */
     private $visitingDay;
 
@@ -64,14 +65,16 @@ class Booking
      */
     private $buyingDay;
 
-
-
-
     /**
      * @ORM\OneToMany(targetEntity="Louvre\TicketBundle\Entity\Ticket", mappedBy="booking", cascade={"persist"}))
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Assert\Valid
+     *
      */
     private $tickets;
+
+
 
     /**
      * Get id
@@ -235,6 +238,7 @@ class Booking
     {
         $this->tickets = new ArrayCollection();
         $this->visitingDay = new \Datetime();
+        $this->buyingDay = new \Datetime();
         $this->quantity = 1;
     }
 

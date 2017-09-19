@@ -9,7 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 class TicketType extends AbstractType
 {
@@ -22,15 +23,18 @@ class TicketType extends AbstractType
             ->add('lastname', TextType::class)
             ->add('firstname', TextType::class)
             ->add('birthday', BirthdayType::class, array(
-                'format' => 'dd MM yyyy'
+                'format' => 'dd MM yyyy',
+                'constraints' =>array(
+                    new Assert\Date(),
+    )
             ))
             ->add('country',CountryType::class, array(
-                'placeholder' => 'France'
+                'preferred_choices' => 'France'
             ))
             ->add('discount', CheckboxType::class, array(
                 'required' => false
             ))
-            ->add('add', SubmitType::class)
+
         ;
     }
     

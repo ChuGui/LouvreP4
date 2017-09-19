@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Louvre\TicketBundle\Form\BookingType;
 use Symfony\Component\HttpFoundation\Request;
 use Louvre\TicketBundle\Form\TicketType;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 
@@ -17,12 +18,26 @@ class TicketController extends Controller
     public function homeAction(Request $request)
     {
         $booking = new Booking();
-        $formBooking = $this->createForm(BookingType::class, $booking);
-        if ($request->isMethod('POST') && $formBooking->handleRequest($request)->isValid()) {
-            $this->get('session')->set('booking', $booking);
-            return $this->redirectToRoute('louvre_ticket_information'
 
-            );
+        $booking->setUrl('test@test.com');
+        $booking->setTotalPrice(20);
+        $booking->setBookingCode('65fq4sd65f4q6');
+
+        $ticket = new Ticket();
+        $ticket->setPrice(5);
+
+
+        $booking->addTicket($ticket);
+        $formBooking = $this->createForm(BookingType::class, $booking);
+        $formBooking->handleRequest($request);
+        if ($formBooking->isSubmitted() && $formBooking->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($booking);
+
+
+            return new Response(var_dump($booking));
+            return new Response(var_dump($booking->getTickets()));
         }
 
         return $this->render('LouvreTicketBundle:Ticket:home.html.twig', array(
@@ -30,23 +45,6 @@ class TicketController extends Controller
         ));
     }
 
-    public function informationAction(Request $request)
-    {
-        $booking = $this->get('session')->get('booking');
-
-        {
-            $formTicket = $this->createForm(TicketType::class, $ticket);
-        }
-
-
-
-        return $this->render('LouvreTicketBundle:Ticket:information.html.twig', array(
-            'formTicket' => $formTicket->createView(),
-            'booking' => $booking
-        ));
-
-
-    }
 
     public function stripeAction()
     {

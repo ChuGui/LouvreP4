@@ -1,39 +1,36 @@
 {% extends "::layout.html.twig" %}
-{% block stylesheets %}
-    {{ parent() }}
-    {% stylesheets 'bundles/louvreticket/css/ticket.css' %}
-    <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-    {% endstylesheets %}
 
-{% endblock %}
 {% block title %}{{ parent() }} - Accueil{% endblock %}
 
 {% block body %}
-    {% block header %} Accueil {%  endblock %}
-<div class="well">
+    {% block header %} Accueil {% endblock %}
 
-        {{ form_start(formBooking, {'attr' : {'class' : 'form-horizontal'}}) }}
-    {{ form_row(formBooking.tickets) }}
-    <a href="#" id="add_category" class="btn btn-default">Ajouter un billet</a>
+    <div class="well">
+        {{ form_start(formBooking, {'attr' : {'class' : 'form-inline', 'novalidate': 'novalidate'}}) }}
+        {{ form_row(formBooking.visitingDay) }}
+        {{ form_row(formBooking.fullday) }}
+        <div class="well" id="ticketsForm" data-prototype="{{ form_widget(formBooking.tickets.vars.prototype)| e }}">
+            {% for ticket in formBooking.tickets %}
+                <div id="ticket-{{ loop.index0 }}">
+                    <h3>Billet n° {{ loop.index }}</h3>
+                    {{ form_widget(ticket) }}
 
-        {{ form_end (formBooking)}}
+                </div>
+            {% endfor %}
+        </div>
+        <a href="#" id="add_ticket" class="btn btn-default">Ajouter un billet</a>
 
+        {{ form_end (formBooking) }}
     </div>
 
 {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {% javascripts
-    'bundles/louvreticket/js/*'
-    %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    {% endjavascripts %}
-
-
-
-{% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        {% javascripts
+        'bundles/louvreticket/js/addTicket.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
 
 
 
