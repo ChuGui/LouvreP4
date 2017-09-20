@@ -1,16 +1,49 @@
 {% extends "::layout.html.twig" %}
 
 {% block title %}{{ parent() }} - Stripe{% endblock %}
-    {% block header %} STRIPE {%  endblock %}
-{% block body %}
 
-<div id="container">
-    <ul>
-        <li>Récap paiement</li>
-        <li>Total à payer</li>
-        <li>Plateform Stripe <br>email <br>carte bleue</li>
-    </ul>
-</div>
+
+    {% block header %} STRIPE {% endblock %}
+{% block body %}
+    <div class="well">
+        {{ form_start(formBooking, {'attr': {'id': 'payment_form'}}) }}
+        {{ form_row(formBooking.lastnameBooking, {'attr' : {'placeholder': 'Votre nom'}}) }}
+        {{ form_row(formBooking.firstnameBooking, {'attr' : {'placeholder': 'Votre prénom'}}) }}
+        {{ form_row(formBooking.url,{'attr' : {'placeholder': 'Votre@email.com'}}) }}
+
+        {% do formBooking.visitingDay.setRendered %}
+        {% do formBooking.fullday.setRendered %}
+        {% do formBooking.tickets.setRendered %}
+        {%  do formBooking.next.setRendered %}
+        <div class="container-fluid">
+            <input type="text" class="form-control" placeholder="Votre numéro de carte bleue" data-stripe="number">
+        </div>
+        <div class="container-fluid">
+            <input type="text" class="form-control" placeholder="MM" data-stripe="exp_month">
+        </div>
+        <div class="container-fluid">
+            <input type="text" class="form-control" placeholder="YY" data-stripe="exp_year">
+        </div>
+        <div class="container-fluid">
+            <input type="text" class="form-control" placeholder="CVC" data-stripe="cvc">
+        </div>
+        <div class="container-fluid">
+            <button class="btn btn-info" type="submit">Paiement sécurisé <span class="glyphicon glyphicon-lock"></span></button>
+        </div>
+
+
+        {{ form_end (formBooking) }}
+    </div>
 
 {% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        {% javascripts
+        'bundles/louvreticket/js/bookingStripe.js'
+        "https://js.stripe.com/v2/"
+        %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+    {% endblock %}
 

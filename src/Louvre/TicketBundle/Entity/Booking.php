@@ -31,6 +31,20 @@ class Booking
     private $url;
 
     /**
+     * @var string $lastnameBooking
+     *
+     * @ORM\Column(name="lastnameBooking", type="string", length=255)
+     */
+    private $lastnameBooking;
+
+    /**
+     * @var string $firstnameBooking
+     *
+     * @ORM\Column(name="firstnameBooking", type="string", length=255)
+     */
+    private $firstnameBooking;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="totalPrice", type="integer")
@@ -276,4 +290,100 @@ class Booking
         return $this->tickets;
     }
 
+
+    /**
+     * Set lastname
+     *
+     * @param string $lastname
+     *
+     * @return Booking
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * Get lastname
+     *
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * Set firstname
+     *
+     * @param string $firstname
+     *
+     * @return Booking
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    /**
+     * Get firstname
+     *
+     * @return string
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set lastnameBooking
+     *
+     * @param string $lastnameBooking
+     *
+     * @return Booking
+     */
+    public function setLastnameBooking($lastnameBooking)
+    {
+        $this->lastnameBooking = $lastnameBooking;
+
+        return $this;
+    }
+
+    /**
+     * Get lastnameBooking
+     *
+     * @return string
+     */
+    public function getLastnameBooking()
+    {
+        return $this->lastnameBooking;
+    }
+
+    /**
+     * Set firstnameBooking
+     *
+     * @param string $firstnameBooking
+     *
+     * @return Booking
+     */
+    public function setFirstnameBooking($firstnameBooking)
+    {
+        $this->firstnameBooking = $firstnameBooking;
+
+        return $this;
+    }
+
+    /**
+     * Get firstnameBooking
+     *
+     * @return string
+     */
+    public function getFirstnameBooking()
+    {
+        return $this->firstnameBooking;
+    }
 }

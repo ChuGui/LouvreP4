@@ -19,7 +19,9 @@
             {% endfor %}
         </div>
         <a href="#" id="add_ticket" class="btn btn-default">Ajouter un billet</a>
-
+        {% do formBooking.url.setRendered %}
+        {% do formBooking.lastnameBooking.setRendered %}
+        {% do formBooking.firstnameBooking.setRendered %}
         {{ form_end (formBooking) }}
     </div>
 
