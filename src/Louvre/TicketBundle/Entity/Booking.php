@@ -291,67 +291,6 @@ class Booking
     }
 
 
-    /**
-     * Set lastname
-     *
-     * @param string $lastname
-     *
-     * @return Booking
-     */
-    public function setLastname($lastname)
-    {
-        $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    /**
-     * Get lastname
-     *
-     * @return string
-     */
-    public function getLastname()
-    {
-        return $this->lastname;
-    }
-
-    /**
-     * Set firstname
-     *
-     * @param string $firstname
-     *
-     * @return Booking
-     */
-    public function setFirstname($firstname)
-    {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    /**
-     * Get firstname
-     *
-     * @return string
-     */
-    public function getFirstname()
-    {
-        return $this->firstname;
-    }
-
-    /**
-     * Set lastnameBooking
-     *
-     * @param string $lastnameBooking
-     *
-     * @return Booking
-     */
-    public function setLastnameBooking($lastnameBooking)
-    {
-        $this->lastnameBooking = $lastnameBooking;
-
-        return $this;
-    }
 
     /**
      * Get lastnameBooking

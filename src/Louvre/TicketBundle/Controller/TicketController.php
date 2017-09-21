@@ -5,6 +5,7 @@ namespace Louvre\TicketBundle\Controller;
 
 use Louvre\TicketBundle\Entity\Booking;
 use Louvre\TicketBundle\Entity\Ticket;
+use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Louvre\TicketBundle\Form\BookingType;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,17 +44,35 @@ class TicketController extends Controller
     }
 
 
-    public function stripeAction()
+    public function stripeAction(Request $request)
     {
-        $bookingSession = $this->get('session')->get('booking');
+        /*$bookingSession = $this->get('session')->get('booking');
         $formBooking = $this->createForm(BookingType::class, $bookingSession);
-        return $this->render('LouvreTicketBundle:Ticket:stripe.html.twig', array(
-            'formBooking' => $formBooking->createView()
-        ));
+        $formBooking->handleRequest($request);*/
+
+        /*if ($formBooking->isSubmitted() && $formBooking->isValid()) {
+
+            var_dump($formBooking);
+            return $this->redirectToRoute('louvre_ticket_recap');
+        }*/
+        return $this->render('LouvreTicketBundle:Ticket:stripe.html.twig')
+        ;
     }
 
-    public function recapAction()
+    public function recapAction(Request $request)
     {
-        return $this->render('LouvreTicketBundle:Ticket:recap.html.twig');
+        $token = $_POST['stripeToken'];
+        $lastname = $_POST['lastname'];
+        $firstname = $_POST['firstname'];
+        Stripe::setApiKey('sk_test_i8AYP4qMtuAMTkYOBH3uLhZR');
+        $stripeinfo = \Stripe\Token::retrieve($token);
+        $email = $stripeinfo->email;
+        $bookingSession = $this->get('session')->get('booking');
+        var_dump($bookingSession);
+        $bookingSession->set
+
+        return $this->render("LouvreTicketBundle:Ticket:recap.html.twig", array(
+            'token' => $token
+        ));
     }
 }

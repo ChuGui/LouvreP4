@@ -2,48 +2,57 @@
 
 {% block title %}{{ parent() }} - Stripe{% endblock %}
 
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('bundles/louvreticket/css/bookingStripe.css') }}" type="text/css"/>
+    {% endblock %}
 
     {% block header %} STRIPE {% endblock %}
+
 {% block body %}
+
     <div class="well">
-        {{ form_start(formBooking, {'attr': {'id': 'payment_form'}}) }}
-        {{ form_row(formBooking.lastnameBooking, {'attr' : {'placeholder': 'Votre nom'}}) }}
-        {{ form_row(formBooking.firstnameBooking, {'attr' : {'placeholder': 'Votre prénom'}}) }}
-        {{ form_row(formBooking.url,{'attr' : {'placeholder': 'Votre@email.com'}}) }}
+        <div class="container-fluid">
+            <h1><span>Projet Stripe</span> Paiement sécurisé</h1>
 
-        {% do formBooking.visitingDay.setRendered %}
-        {% do formBooking.fullday.setRendered %}
-        {% do formBooking.tickets.setRendered %}
-        {%  do formBooking.next.setRendered %}
-        <div class="container-fluid">
-            <input type="text" class="form-control" placeholder="Votre numéro de carte bleue" data-stripe="number">
-        </div>
-        <div class="container-fluid">
-            <input type="text" class="form-control" placeholder="MM" data-stripe="exp_month">
-        </div>
-        <div class="container-fluid">
-            <input type="text" class="form-control" placeholder="YY" data-stripe="exp_year">
-        </div>
-        <div class="container-fluid">
-            <input type="text" class="form-control" placeholder="CVC" data-stripe="cvc">
-        </div>
-        <div class="container-fluid">
-            <button class="btn btn-info" type="submit">Paiement sécurisé <span class="glyphicon glyphicon-lock"></span></button>
+            <form action="{{ path('louvre_ticket_recap') }}" class="form-inline" method="POST" id="payment_form">
+                <div class="form-group">
+                    <label for="lastname">Votre nom</label>
+                    <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Nom">
+                </div>
+                <div class="form-group">
+                    <label for="firstname">Votre prénom</label>
+                    <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Prénom">
+                </div>
+
+                <br>
+                <hr>
+                <script
+                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="pk_test_lvefCuTVu1SQoYPdJO57yFYv"
+                        data-amount="999"
+                        data-name="ChuGu"
+                        data-description="Widget"
+                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                        data-locale="auto"
+                        data-zip-code="false"
+                        data-value="payer avec carte"
+                >
+                </script>
+
+            </form>
         </div>
 
 
-        {{ form_end (formBooking) }}
     </div>
-
 {% endblock %}
+
+
+
+
     {% block javascripts %}
         {{ parent() }}
-        {% javascripts
-        'bundles/louvreticket/js/bookingStripe.js'
-        "https://js.stripe.com/v2/"
-        %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
-
+        <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
+        <script type="text/javascript" src="{{ asset('bundles/louvreticket/js/bookingStripe.js') }}"></script>
     {% endblock %}
 
