@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Louvre\TicketBundle\Form\TicketType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 
 class TicketController extends Controller
@@ -25,13 +26,15 @@ class TicketController extends Controller
         $booking->setBookingCode('65fq4sd65f4q6');
 
         $ticket = new Ticket();
-        $ticket->setPrice(5);
+
 
 
         $booking->addTicket($ticket);
         $formBooking = $this->createForm(BookingType::class, $booking);
         $formBooking->handleRequest($request);
         if ($formBooking->isSubmitted() && $formBooking->isValid()) {
+
+
             $bookingSession = new Session();
             $bookingSession-> set('booking', $booking);
 
@@ -46,9 +49,27 @@ class TicketController extends Controller
 
     public function stripeAction(Request $request)
     {
-        /*$bookingSession = $this->get('session')->get('booking');
+        $bookingSession = $this->get('session')->get('booking');
+        $tickets = $bookingSession->getTickets();
+        foreach ($tickets as $ticket)
+        {
+            $birthday = $ticket->getBirthday();
+            $today = new \Datetime();
+            $interval = date_diff($birthday, $today);
+            var_dump($interval['days']);
+
+
+
+            $ticket->setPrice(16);
+
+            if($ticket->getDiscount()== true)
+            {
+                $ticket->setPrice(10);
+            };
+
+        }
         $formBooking = $this->createForm(BookingType::class, $bookingSession);
-        $formBooking->handleRequest($request);*/
+        $formBooking->handleRequest($request);
 
         /*if ($formBooking->isSubmitted() && $formBooking->isValid()) {
 
@@ -68,8 +89,11 @@ class TicketController extends Controller
         $stripeinfo = \Stripe\Token::retrieve($token);
         $email = $stripeinfo->email;
         $bookingSession = $this->get('session')->get('booking');
+        $bookingSession->setLastnameBooking($lastname);
+        $bookingSession->setFirstnameBooking($firstname);
+        $bookingSession->setUrl($email);
         var_dump($bookingSession);
-        $bookingSession->set
+
 
         return $this->render("LouvreTicketBundle:Ticket:recap.html.twig", array(
             'token' => $token

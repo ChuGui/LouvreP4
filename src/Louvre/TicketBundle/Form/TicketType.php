@@ -23,14 +23,13 @@ class TicketType extends AbstractType
             ->add('lastname', TextType::class)
             ->add('firstname', TextType::class)
             ->add('birthday', BirthdayType::class, array(
-                'format' => 'dd MM yyyy',
+                'widget' => 'choice',
+                'format' => 'dd-MM-yyyy',
                 'constraints' =>array(
                     new Assert\Date(),
     )
             ))
-            ->add('country',CountryType::class, array(
-                'preferred_choices' => 'France'
-            ))
+            ->add('country',CountryType::class)
             ->add('discount', CheckboxType::class, array(
                 'required' => false
             ))

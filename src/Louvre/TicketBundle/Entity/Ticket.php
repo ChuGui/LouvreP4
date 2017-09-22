@@ -89,6 +89,7 @@ class Ticket
     {
         $this->country = "FR";
         $this->birthday = new \DateTime();
+
     }
 
 

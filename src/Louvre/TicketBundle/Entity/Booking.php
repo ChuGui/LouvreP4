@@ -303,6 +303,20 @@ class Booking
     }
 
     /**
+     * Set $lastnameBooking
+     *
+     * @param string $lastnameBooking
+     *
+     * @return Booking
+     */
+    public function setLastnameBooking($lastnameBooking)
+    {
+        $this->lastnameBooking = $lastnameBooking;
+
+        return $this;
+    }
+
+    /**
      * Set firstnameBooking
      *
      * @param string $firstnameBooking
