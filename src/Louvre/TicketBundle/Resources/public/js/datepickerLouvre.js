@@ -8,7 +8,6 @@ jQuery(function($)
             {
                 var day = date.getDay();
                 var d = date.getUTCDate();
-                console.log(d);
                 var month = date.getUTCMonth();
                 if(day == 2 || day == 0 || (d ==30 && month == 3) || (d ==31 && month == 9) || (d ==24 && month == 11))
                 {
@@ -30,7 +29,9 @@ jQuery(function($)
             dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
             dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
             weekHeader: 'Sem.',
-            dateFormat: 'dd-mm-yy'
+            dateFormat: 'dd-mm-yy',
+            showOn: 'button',
+            button
         }
     );
 })

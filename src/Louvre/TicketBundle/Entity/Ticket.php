@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="ticket")
  * @ORM\Entity(repositoryClass="Louvre\TicketBundle\Repository\TicketRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Ticket
 {
@@ -272,30 +273,6 @@ class Ticket
     }
 
     /**
-     * Set ticketsOrder
-     *
-     * @param \Louvre\TicketBundle\Entity\TicketsOrder $ticketsOrder
-     *
-     * @return Ticket
-     */
-    public function setTicketsOrder(\Louvre\TicketBundle\Entity\TicketsOrder $ticketsOrder)
-    {
-        $this->ticketsOrder = $ticketsOrder;
-
-        return $this;
-    }
-
-    /**
-     * Get ticketsOrder
-     *
-     * @return \Louvre\TicketBundle\Entity\TicketsOrder
-     */
-    public function getTicketsOrder()
-    {
-        return $this->ticketsOrder;
-    }
-
-    /**
      * Set booking
      *
      * @param \Louvre\TicketBundle\Entity\Booking $booking
@@ -304,7 +281,7 @@ class Ticket
      */
     public function setBooking(\Louvre\TicketBundle\Entity\Booking $booking)
     {
-        $this->booking = $booking ;
+        $this->booking = $booking;
 
         return $this;
     }
@@ -318,4 +295,6 @@ class Ticket
     {
         return $this->booking;
     }
+
+
 }

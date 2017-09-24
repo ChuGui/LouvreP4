@@ -19,6 +19,14 @@ class TicketController extends Controller
 {
     public function homeAction(Request $request)
     {
+        //Vérification du nombre de ticket disponible pour une date précise
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('LouvreTicketBundle:Ticket')
+        ;
+
+/*        $nbTicket = $repository->getNbTicket(new DateTime());*/
         $booking = new Booking();
 
         $booking->setUrl('test@test.com');
@@ -28,7 +36,6 @@ class TicketController extends Controller
         $ticket = new Ticket();
 
 
-
         $booking->addTicket($ticket);
         $formBooking = $this->createForm(BookingType::class, $booking);
         $formBooking->handleRequest($request);
@@ -36,7 +43,7 @@ class TicketController extends Controller
 
 
             $bookingSession = new Session();
-            $bookingSession-> set('booking', $booking);
+            $bookingSession->set('booking', $booking);
 
             return $this->redirectToRoute('louvre_ticket_stripe');
         }
@@ -49,25 +56,47 @@ class TicketController extends Controller
 
     public function stripeAction(Request $request)
     {
-        $bookingSession = $this->get('session')->get('booking');
-        $tickets = $bookingSession->getTickets();
-        foreach ($tickets as $ticket)
-        {
-            $birthday = $ticket->getBirthday();
-            $today = new \Datetime();
-            $interval = date_diff($birthday, $today);
-            var_dump($interval['days']);
 
+            $bookingSession = $this->get('session')->get('booking');
+            $tickets = $bookingSession->getTickets();
+            $totalPrice = 0;
+            foreach ($tickets as $ticket) {
+                $ticketDate = $bookingSession->getVisitingDay();
+                $ticket->setDate($ticketDate);
+                $birthday = $ticket->getBirthday();
+                $today = new \Datetime();
+                $interval = date_diff($birthday, $today);
+                $age = $interval->y;
+                if ($age < 4) {
+                    $ticket->setPrice(0);
+                } else if ($age >= 4 && $age <= 12) {
+                    $ticket->setPrice(8);
+                } else if ($age > 59) {
+                    $ticket->setPrice(12);
+                } else {
+                    if ($ticket->getDiscount() == true) {
+                        $ticket->setPrice(10);
+                    } else {
+                        $ticket->setPrice(16);
+                    }
 
+                }
+                var_dump($ticket);
+                $ticketPrice = $ticket->getPrice();
+                $totalPrice = $totalPrice + $ticketPrice;
 
-            $ticket->setPrice(16);
+            }
 
-            if($ticket->getDiscount()== true)
+            var_dump($totalPrice);
+            $fullday = $bookingSession->getFullDay();
+            var_dump($fullday);
+            if ($fullday = true)
             {
-                $ticket->setPrice(10);
-            };
+                $totalPrice = $totalPrice/2;
+            }
+        var_dump($totalPrice);
 
-        }
+
         $formBooking = $this->createForm(BookingType::class, $bookingSession);
         $formBooking->handleRequest($request);
 
@@ -76,8 +105,7 @@ class TicketController extends Controller
             var_dump($formBooking);
             return $this->redirectToRoute('louvre_ticket_recap');
         }*/
-        return $this->render('LouvreTicketBundle:Ticket:stripe.html.twig')
-        ;
+        return $this->render('LouvreTicketBundle:Ticket:stripe.html.twig');
     }
 
     public function recapAction(Request $request)

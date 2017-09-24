@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="booking")
  * @ORM\Entity(repositoryClass="Louvre\TicketBundle\Repository\BookingRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Booking
 {
@@ -80,6 +81,13 @@ class Booking
     private $buyingDay;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="$nbTickets", type="integer")
+     */
+    private $nbTickets;
+
+    /**
      * @ORM\OneToMany(targetEntity="Louvre\TicketBundle\Entity\Ticket", mappedBy="booking", cascade={"persist"}))
      * @ORM\JoinColumn(nullable=false)
      *
@@ -89,6 +97,30 @@ class Booking
     private $tickets;
 
 
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function updateAt()
+    {
+        $this->setBuyingDay(new \DateTime());
+    }
+
+    public function increaseApplication()
+    {
+        $this->nbTickets++;
+    }
+
+
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function createBookingCode()
+    {
+        $random_hash = substr(md5(uniqid(rand(), true)), 16, 16);
+        $this->setBookingCode($random_hash);
+    }
 
     /**
      * Get id
@@ -252,7 +284,6 @@ class Booking
     {
         $this->tickets = new ArrayCollection();
         $this->visitingDay = new \Datetime();
-        $this->buyingDay = new \Datetime();
         $this->quantity = 1;
     }
 
@@ -291,51 +322,52 @@ class Booking
     }
 
 
+
     /**
-     * Set lastname
+     * Get lastnameBooking
      *
-     * @param string $lastname
+     * @return string
+     */
+    public function getLastnameBooking()
+    {
+        return $this->lastnameBooking;
+    }
+
+    /**
+     * Set $lastnameBooking
+     *
+     * @param string $lastnameBooking
      *
      * @return Booking
      */
-    public function setLastname($lastname)
+    public function setLastnameBooking($lastnameBooking)
     {
-        $this->lastname = $lastname;
+        $this->lastnameBooking = $lastnameBooking;
 
         return $this;
     }
 
     /**
-     * Get lastname
+     * Set firstnameBooking
      *
-     * @return string
-     */
-    public function getLastname()
-    {
-        return $this->lastname;
-    }
-
-    /**
-     * Set firstname
-     *
-     * @param string $firstname
+     * @param string $firstnameBooking
      *
      * @return Booking
      */
-    public function setFirstname($firstname)
+    public function setFirstnameBooking($firstnameBooking)
     {
-        $this->firstname = $firstname;
+        $this->firstnameBooking = $firstnameBooking;
 
         return $this;
     }
 
     /**
-     * Get firstname
+     * Get firstnameBooking
      *
      * @return string
      */
-    public function getFirstname()
+    public function getFirstnameBooking()
     {
-        return $this->firstname;
+        return $this->firstnameBooking;
     }
 }

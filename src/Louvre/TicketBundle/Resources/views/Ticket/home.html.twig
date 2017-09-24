@@ -6,7 +6,6 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
     <script type="text/javascript" src="{{ asset('bundles/louvreTicket/js/datepickerLouvre.js') }}"></script>
 
 
@@ -17,7 +16,7 @@
 
     <div class="well">
         {{ form_start(formBooking, {'attr' : {'class' : 'form-inline', 'novalidate': 'novalidate'}}) }}
-        {{ form_row(formBooking.visitingDay, {'attr': {'id' : 'datepicker', 'name' : 'datepicker'}}) }}
+        {{ form_row(formBooking.visitingDay, {'attr': {'id' : 'datepicker', 'name' : 'datepicker'}}) }} <span id="infoNbTicket" class="alert alert-info fade in">Hello</span>
         {{ form_row(formBooking.fullday) }}
         <div class="well" id="ticketsForm" data-prototype="{{ form_widget(formBooking.tickets.vars.prototype)| e }}">
             {% for ticket in formBooking.tickets %}
@@ -39,9 +38,10 @@
 
     {% block javascripts %}
         {{ parent() }}
-
         {% javascripts
-        'bundles/louvreticket/js/addTicket.js'%}
+        'bundles/louvreticket/js/addTicket.js'
+        'bundles/louvreticket/js/nbTicketsAvailable.js'
+        %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
     {% endblock %}
