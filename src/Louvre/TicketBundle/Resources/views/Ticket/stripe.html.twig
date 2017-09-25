@@ -15,6 +15,9 @@
         <div class="container-fluid">
             <h1><span>Projet Stripe</span> Paiement sécurisé</h1>
 
+            {{ form_start(formBooking)}}
+            {{ form_end (formBooking) }}
+
             <form action="{{ path('louvre_ticket_recap') }}" class="form-inline" method="POST" id="payment_form">
                 <div class="form-group">
                     <label for="lastname">Votre nom</label>
