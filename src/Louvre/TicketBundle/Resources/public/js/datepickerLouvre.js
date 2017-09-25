@@ -30,8 +30,16 @@ jQuery(function($)
             dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
             weekHeader: 'Sem.',
             dateFormat: 'dd-mm-yy',
-            showOn: 'button',
-            button
+            onClose: function(){
+                var $date = $(this).datepicker('getDate');
+                var $day = $date.getDate();
+                var $month = $date.getMonth();
+                var $year = $date.getFullYear();
+                var $fullDate = $day + "/" + ($month+1) + "/" + $year;
+                $('#infoNbTicket').text($fullDate);
+            }
+
         }
     );
+    $
 })

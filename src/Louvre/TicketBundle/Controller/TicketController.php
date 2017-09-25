@@ -57,6 +57,8 @@ class TicketController extends Controller
     public function stripeAction(Request $request)
     {
 
+        if($request->isMethod('POST'))
+        {
             $bookingSession = $this->get('session')->get('booking');
             $tickets = $bookingSession->getTickets();
             $totalPrice = 0;
@@ -94,17 +96,19 @@ class TicketController extends Controller
             {
                 $totalPrice = $totalPrice/2;
             }
-        var_dump($totalPrice);
+        }
 
 
         $formBooking = $this->createForm(BookingType::class, $bookingSession);
         $formBooking->handleRequest($request);
 
-        /*if ($formBooking->isSubmitted() && $formBooking->isValid()) {
+        if ($formBooking->isSubmitted() && $formBooking->isValid()) {
 
-            var_dump($formBooking);
+            $em = $this->getDoctrine()->getManager();
+            $em = persist($bookingSession);
+            $em = flush();
             return $this->redirectToRoute('louvre_ticket_recap');
-        }*/
+        }
         return $this->render('LouvreTicketBundle:Ticket:stripe.html.twig');
     }
 
@@ -120,7 +124,11 @@ class TicketController extends Controller
         $bookingSession->setLastnameBooking($lastname);
         $bookingSession->setFirstnameBooking($firstname);
         $bookingSession->setUrl($email);
-        var_dump($bookingSession);
+
+        ;
+
+
+
 
 
         return $this->render("LouvreTicketBundle:Ticket:recap.html.twig", array(

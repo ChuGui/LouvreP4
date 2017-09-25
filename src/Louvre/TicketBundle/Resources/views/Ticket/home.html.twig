@@ -6,7 +6,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script type="text/javascript" src="{{ asset('bundles/louvreTicket/js/datepickerLouvre.js') }}"></script>
+
 
 
 {% endblock %}
@@ -38,12 +38,10 @@
 
     {% block javascripts %}
         {{ parent() }}
-        {% javascripts
-        'bundles/louvreticket/js/addTicket.js'
-        'bundles/louvreticket/js/nbTicketsAvailable.js'
-        %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+        <script type="text/javascript" src="{{ asset('bundles/louvreTicket/js/datepickerLouvre.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/louvreticket/js/addTicket.js') }}"></script>
+        {#<script type="text/javascript" src="{{ asset('bundles/louvreticket/js/nbTicketsAvailable.js') }}"></script>#}
+
     {% endblock %}
 
 
