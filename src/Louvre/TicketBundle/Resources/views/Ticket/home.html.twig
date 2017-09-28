@@ -13,11 +13,19 @@
 
 {% block body %}
     {% block header %} Accueil {% endblock %}
+    <br>
+    <div class="danger alert-danger">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
 
+            <span>{{ flashMessage }}Il ne reste plus que {{ remainingTicket }} billet(s) disponible(s) pour cette journée.</span>
+
+        {% endfor %}
+    </div>
+    <br>
     <div class="well">
         {{ form_start(formBooking, {'attr' : {'class' : 'form-inline', 'novalidate': 'novalidate'}}) }}
         {{ form_row(formBooking.visitingDay, {'attr': {'id' : 'datepicker', 'name' : 'datepicker'}}) }} <span id="infoNbTicket" class="alert alert-info fade in">Hello</span>
-        {{ form_row(formBooking.fullday) }}
+        {{ form_row(formBooking.halfday) }}
         <div class="well" id="ticketsForm" data-prototype="{{ form_widget(formBooking.tickets.vars.prototype)| e }}">
             {% for ticket in formBooking.tickets %}
                 <div id="ticket-{{ loop.index0 }}">

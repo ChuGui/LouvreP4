@@ -81,8 +81,9 @@ class Ticket
     private $price;
 
     /**
+     * Many tickets have one Booking
      * @ORM\ManyToOne(targetEntity="Louvre\TicketBundle\Entity\Booking", inversedBy="tickets")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="booking_id", referencedColumnName="id", nullable=false)
      */
     private $booking;
 

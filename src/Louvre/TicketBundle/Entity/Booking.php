@@ -62,9 +62,9 @@ class Booking
     /**
      * @var bool
      *
-     * @ORM\Column(name="fullday", type="boolean")
+     * @ORM\Column(name="halfday", type="boolean")
      */
-    private $fullday;
+    private $halfday;
 
     /**
      * @var \date
@@ -80,12 +80,6 @@ class Booking
      */
     private $buyingDay;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="$nbTickets", type="integer")
-     */
-    private $nbTickets;
 
     /**
      * @ORM\OneToMany(targetEntity="Louvre\TicketBundle\Entity\Ticket", mappedBy="booking", cascade={"persist"}))
@@ -105,12 +99,6 @@ class Booking
     {
         $this->setBuyingDay(new \DateTime());
     }
-
-    public function increaseApplication()
-    {
-        $this->nbTickets++;
-    }
-
 
 
     /**
@@ -205,27 +193,27 @@ class Booking
     }
 
     /**
-     * Set fullday
+     * Set $this->halfday
      *
-     * @param boolean $fullday
+     * @param boolean $$this->halfday
      *
      * @return Booking
      */
-    public function setFullday($fullday)
+    public function setHalfday($halfday)
     {
-        $this->fullday = $fullday;
+        $this->halfday = $halfday;
 
         return $this;
     }
 
     /**
-     * Get fullday
+     * Get $this->halfday
      *
      * @return boolean
      */
-    public function getFullday()
+    public function getHalfday()
     {
-        return $this->fullday;
+        return $this->halfday;
     }
 
     /**
@@ -284,7 +272,7 @@ class Booking
     {
         $this->tickets = new ArrayCollection();
         $this->visitingDay = new \Datetime();
-        $this->quantity = 1;
+
     }
 
     /**
@@ -297,6 +285,7 @@ class Booking
     public function addTicket(\Louvre\TicketBundle\Entity\Ticket $ticket)
     {
         $this->tickets[] = $ticket;
+        $ticket->setBooking($this);
 
         return $this;
     }
@@ -371,27 +360,4 @@ class Booking
         return $this->firstnameBooking;
     }
 
-    /**
-     * Set nbTickets
-     *
-     * @param integer $nbTickets
-     *
-     * @return Booking
-     */
-    public function setNbTickets($nbTickets)
-    {
-        $this->nbTickets = $nbTickets;
-
-        return $this;
-    }
-
-    /**
-     * Get nbTickets
-     *
-     * @return integer
-     */
-    public function getNbTickets()
-    {
-        return $this->nbTickets;
-    }
 }

@@ -14,4 +14,12 @@ louvre_ticket_recap:
     path:     /recap
     defaults: { _controller: LouvreTicketBundle:Ticket:recap }
 
+louvre_ticket_remaining:
+    path: /remainingTicket
+    defaults: { _controller: LouvreTicketBundle:Ticket:ticketsRemaining }
+    requirements:
+    methods: GET
+
+
+
 

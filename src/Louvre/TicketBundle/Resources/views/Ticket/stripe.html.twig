@@ -16,20 +16,10 @@
             <h1><span>Projet Stripe</span> Paiement sécurisé</h1>
 
             {{ form_start(formBooking)}}
-            {{ form_end (formBooking) }}
 
-            <form action="{{ path('louvre_ticket_recap') }}" class="form-inline" method="POST" id="payment_form">
-                <div class="form-group">
-                    <label for="lastname">Votre nom</label>
-                    <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Nom">
-                </div>
-                <div class="form-group">
-                    <label for="firstname">Votre prénom</label>
-                    <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Prénom">
-                </div>
+            {{ form_row(formBooking.lastnameBooking) }}
+            {{ form_row(formBooking.firstnameBooking) }}
 
-                <br>
-                <hr>
                 <script
                         src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                         data-key="pk_test_lvefCuTVu1SQoYPdJO57yFYv"
@@ -42,8 +32,13 @@
                         data-value="payer avec carte"
                 >
                 </script>
+            {% do formBooking.url.setRendered %}
+            {% do formBooking.tickets.setRendered %}
+            {% do formBooking.halfday.setRendered %}
+            {% do formBooking.visitingDay.setRendered %}
+            {% do formBooking.next.setRendered %}
+            {{ form_end (formBooking) }}
 
-            </form>
         </div>
 
 

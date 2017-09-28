@@ -35,9 +35,9 @@ class BookingType extends AbstractType
             ))
 
 
-            ->add('fullday', CheckboxType::class, array(
+            ->add('halfday', CheckboxType::class, array(
                 'required' => false,
-                'label' => 'Cochez la case si vous voulez des billets pour la journée entière (avant 14h00)'
+                'label' => 'Cochez la case si vous voulez des billets pour la demi-journée  (après 14h00)'
             ))
             ->add('tickets', CollectionType::class,array(
                 'entry_type' => TicketType::class,

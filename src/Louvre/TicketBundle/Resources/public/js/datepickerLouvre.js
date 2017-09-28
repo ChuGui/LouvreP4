@@ -35,11 +35,21 @@ jQuery(function($)
                 var $day = $date.getDate();
                 var $month = $date.getMonth();
                 var $year = $date.getFullYear();
-                var $fullDate = $day + "/" + ($month+1) + "/" + $year;
+                var $fullDate = $day + "-" + ($month+1) + "-" + $year;
                 $('#infoNbTicket').text($fullDate);
+                $.ajax({
+                    type:'GET',
+                    url:'http://localhost/LouvreP4/web/app_dev.php/remainingTicket',
+                    data: "data="+$date,
+                    dataType: 'html',
+                    success: function(data)
+                    {
+                        alert("retour requête");
+                    }
+                })
             }
 
         }
     );
-    $
+
 })
