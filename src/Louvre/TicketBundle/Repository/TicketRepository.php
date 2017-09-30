@@ -21,7 +21,6 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
         $results = $query->getResult();
 
         $intResult = intval($results[0][1]);
-        var_dump($intResult);
 
 
         // ICI ON PARAMETRE LE NOMBRE DE BILLETS DISPONIBLE PAR JOUR
@@ -29,7 +28,6 @@ class TicketRepository extends \Doctrine\ORM\EntityRepository
 
         //On calcul le nombre de ticket restant disponible
         $ticketsRemaining = $ticketByDay - $intResult;
-        var_dump($ticketsRemaining);
 
         // On retourne ces résultats
         return $ticketsRemaining;

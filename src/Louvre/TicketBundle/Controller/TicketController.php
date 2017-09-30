@@ -8,24 +8,16 @@ use Louvre\TicketBundle\Entity\Ticket;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Louvre\TicketBundle\Form\BookingType;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
-use Louvre\TicketBundle\Form\TicketType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 
 class TicketController extends Controller
 {
     public function homeAction(Request $request)
     {
-        //Vérification du nombre de ticket disponible pour une date précise
-
-
-
-
-        /*        $nbTicket = $repository->getNbTicket(new DateTime());*/
+        /*$nbTicket = $repository->getNbTicket(new DateTime());*/
         $booking = new Booking();
         $ticket = new Ticket();
         $booking->addTicket($ticket);
@@ -36,19 +28,15 @@ class TicketController extends Controller
         //Traitement du formulaire
         if ($formBooking->isSubmitted() && $formBooking->isValid()) {
 
-            /*TODO
-             *
-             * //Après 14h les billets passent directement en demi journée pour la date d'aujourd'hui
+            //Après 14h les billets passent directement en demi journée pour la date d'aujourd'hui
             $today = date('Y-m-d');
-            $time = intval(date('h'));
+            $time = intval(date('H'));
             $visitingDay = $booking->getVisitingDay();
-            $visitingDay->format('Y-m-d');
-            echo($today);
-            echo($visitingDay);
-            if(($visitingDay == $today)&&($time>9))
+            $visitingDate= date_format($visitingDay,('Y-m-d'));
+            if(($visitingDate == $today)&&($time>13))
             {
                 $booking->setHalfday(true);
-            }*/
+            }
 
             // Vérification de la date et du nombre de tickets disponibles
             $repository = $this
@@ -57,7 +45,6 @@ class TicketController extends Controller
                 ->getRepository('LouvreTicketBundle:Ticket');
 
             $remaining = $repository->findNbTicketsAtDate($booking->getVisitingDay());
-
 
             //Récupération du nombre de ticket ajouté par le client
             $newTicketsAdded = count($booking->getTickets());
@@ -78,7 +65,7 @@ class TicketController extends Controller
                 $bookingSession = new Session();
                 $bookingSession->set('booking', $booking);
 
-                return $this->redirectToRoute('louve_ticket_stripe');
+                return $this->redirectToRoute('louvre_ticket_stripe');
             }
         };
 
@@ -92,8 +79,6 @@ class TicketController extends Controller
     {
         //Appel de la session récupération de l'objet booking de type Booking
         $bookingSession = $this->get('session')->get('booking');
-
-        var_dump($bookingSession);
         $booking = new Booking();
 
         //Création du formulaire à partir de l'objet $booking instance de Booking
@@ -101,56 +86,8 @@ class TicketController extends Controller
 
         $formBooking->handleRequest($request);
 
-        //Récupération des tickets
-        $ticketsBookingSession = $bookingSession->getTickets();
-
-        //Calcul du prix de chaque ticket en fonction des entrées client
-        $totalPriceBookingSession = 0;
-
-        foreach ($ticketsBookingSession as $ticketBookingSession) {
-            $ticketDate = $bookingSession->getVisitingDay();
-
-            //Les tickets prennent la date de bookingSession
-            $ticketBookingSession->setDate($ticketDate);
-
-            //Calcul de l'âge du client
-            $birthdayBookingSession = $ticketBookingSession->getBirthday();
-            $today = new \Datetime();
-            $interval = date_diff($birthdayBookingSession, $today);
-            $age = $interval->y;
-
-            //Calcul du prix grâce à l'âge et aux réductions
-            if ($age < 4) {
-                $ticketBookingSession->setPrice(0);
-            } else if ($age >= 4 && $age <= 12) {
-                $ticketBookingSession->setPrice(8);
-            } else if ($age > 59) {
-                $ticketBookingSession->setPrice(12);
-            } else {
-                if ($ticketBookingSession->getDiscount() == true) {
-                    $ticketBookingSession->setPrice(10);
-                } else {
-                    $ticketBookingSession->setPrice(16);
-                }
-            }
-
-
-            //Incrémentation de $totalprice pour le calcul du prix total
-            $ticketPriceBookingSession = $ticketBookingSession->getPrice();
-            $totalPriceBookingSession = $totalPriceBookingSession + $ticketPriceBookingSession;
-
-        }
-
-
-        $halfdayBookingSession = $bookingSession->getHalfday();
-        //Le prix est divisé par 2 si la case pour la demi journée est pas cochée
-        if ($halfdayBookingSession == true)
-        {
-            $totalPriceBookingSession = $totalPriceBookingSession / 2;
-        }
-
-
-        $bookingSession->setTotalPrice($totalPriceBookingSession);
+        $calculatePrice = $this->container6->get('louvre.calculatePrice');
+        $calculatePrice->totalPriceOf($bookingSession);
 
 
 
@@ -168,17 +105,75 @@ class TicketController extends Controller
             $booking->setUrl($email);
             $booking->setVisitingDay($bookingSession->getVisitingDay());
             $booking->setTotalPrice($bookingSession->getTotalPrice());
-            $booking->setFullDay($bookingSession->getFullDay());
+            $booking->setHalfDay($bookingSession->getHalfDay());
             $allTickets = $bookingSession->getTickets();
             foreach ($allTickets as $ticket)
             {
                 $booking->addTicket($ticket);
             }
 
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($booking);
             $em->flush();
+
+
+            //Préparation du body en html Pour l'envois d'email
+            function createMailBody($booking, $allTickets)
+            {
+                $halfDay= "";
+                if (($booking->getHalfday()) ==true)
+                {
+                    $halfDay = "Demi-journée";
+                    return $halfDay;
+                }
+
+                $nTicket = 1;
+                foreach ($allTickets as $ticket)
+                {
+                    //Préparation des variables pour chaque billet
+                    $nom = $ticket->getLastname();
+                    $prenom = $ticket->getFirstname();
+                    $dateVisite = $ticket->getDate();
+                    $dateVisiteFr = date_format($dateVisite, 'd/m/Y');
+                    function afficherReduction($ticket)
+                    {
+                        $discount = $ticket->getDiscount();
+                        if ($discount == true)
+                        {
+                            return "Réduction : Oui. A justifier à l'accueil du Louvre";
+
+                        }else{
+                            return "Réduction: Pas de réduction.";
+                        }
+                    }
+                    $discountMsg = afficherReduction($ticket);
+
+
+                    //Calcul de l'âge du client
+                    $birthday = $ticket->getBirthday();
+                    $today = new \Datetime();
+                    $interval = date_diff($birthday, $today);
+                    $age = $interval->y;
+                    $prix = $ticket->getPrice();
+
+                    // Pour chaque billet: $halfDay, $nom, $prenom, $age, $dateVisite, $prix,  $discountMsg
+                    $message = "<h2>Billet n°" . $nTicket . ":</h2>" ."<h3>Billet valable le : " . $dateVisiteFr . " </h3>" ."<h4>Type de billet : " . $halfDay . "</h4> <br> <p> Nom: " . $nom . ". <br> Prénom: " . $prenom . "<br> Age : " . $age . " an(s) <br>" . "Tarif : " . $prix . "€ </p><p><strong>" . $discountMsg . "</strong></p><br>" ;
+                    return $message;
+                }
+            }
+
+            //Création de l'email
+            $billets = createMailBody($booking, $allTickets);
+            $body = "<h1>Voici vos billets: </h1>" . $billets . "<br><br>";
+
+            //Envois du message
+            $message = (new \Swift_Message('Vos billets pour le Louvre'))
+                ->setFrom('chugustudio@gmail.com')
+                ->setTo($email)
+                ->setBody($billets, 'text/html');
+            $this->get('mailer')->send($message);
+
+
             $request->getSession()->getFlashBag()->add('success', 'Booking à bien enregistré.');
             return $this->redirectToRoute('louvre_ticket_recap');
         }
@@ -196,12 +191,19 @@ class TicketController extends Controller
         ));
     }
 
-    public function ticketsRemainingAction($date)
+    public function ticketsRemainingAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('LouvreTicketBundle:Ticket');
-        $ticketsRemaining = $repository->findNbTicketsAtDate($date);
+        if($request->isXmlHttpRequest()) {
+            $date = htmlspecialchars($request->query->get('date'));
+            $em = $this->getDoctrine()->getManager();
+            $repository = $em->getRepository('LouvreTicketBundle:Ticket');
+            $ticketsRemaining = $repository->findNbTicketsAtDate($date);
+            $response = new Response(json_encode($ticketsRemaining));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }else{
+            return new Response("Va t'en!!!!");
+        }
 
-        return new Response($ticketsRemaining);
     }
 }

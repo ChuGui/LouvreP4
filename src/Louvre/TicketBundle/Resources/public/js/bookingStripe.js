@@ -5,6 +5,4 @@ var elements = stripe.elements();
 $form.submit(function (e)
 {
     e.preventDefault();
-
-
 })

@@ -1,3 +1,4 @@
+//php bin/console asset:install --symlink
 jQuery(function($)
 {
     var date = new Date();
@@ -31,20 +32,37 @@ jQuery(function($)
             weekHeader: 'Sem.',
             dateFormat: 'dd-mm-yy',
             onClose: function(){
+                //Get selected date by client
                 var $date = $(this).datepicker('getDate');
                 var $day = $date.getDate();
                 var $month = $date.getMonth();
                 var $year = $date.getFullYear();
                 var $fullDate = $day + "-" + ($month+1) + "-" + $year;
-                $('#infoNbTicket').text($fullDate);
+
+
+                //Remove checkBox Element id=halfdayCheckBox after 14h00 if today's day is selected
+                var now = new Date();
+                var currentDay = now.getDate();
+
+                var currentMonth = now.getMonth();
+                var currentYear= now.getFullYear();
+                var currentFullDate= currentDay + "-" + (currentMonth+1) + "-" + currentYear;
+                console.log(currentFullDate);
+                if(currentFullDate === $fullDate)
+                {
+                    $("#louvre_ticketbundle_booking_halfday").hide()
+                }else{
+                    $("#louvre_ticketbundle_booking_halfday").show()
+                }
+                var americanDate = $year + "-" + ($month+1) + "-" + $day;
                 $.ajax({
                     type:'GET',
-                    url:'http://localhost/LouvreP4/web/app_dev.php/remainingTicket',
-                    data: "data="+$date,
-                    dataType: 'html',
+                    url:'http://localhost/LouvreP4/web/app_dev.php/remainingTicket?date=' + americanDate,
+                    dataType: 'JSON',
                     success: function(data)
                     {
-                        alert("retour requête");
+                        console.log(data);
+                        $('#infoNbTicket').text("Il ne reste plus que " + data + " billet(s) disponible(s) pour le " + $fullDate);
                     }
                 })
             }
