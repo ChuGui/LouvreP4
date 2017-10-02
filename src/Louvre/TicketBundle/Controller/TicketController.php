@@ -86,11 +86,9 @@ class TicketController extends Controller
 
         $formBooking->handleRequest($request);
 
-        $calculatePrice = $this->container6->get('louvre.calculatePrice');
-        $calculatePrice->totalPriceOf($bookingSession);
-
-
-
+        $calculatePrice = $this->container->get('louvre.calculatePrice');
+        // $bookingPriced est l'objet booking une fois le prix calculé
+        $bookingPriced = $calculatePrice->totalPriceOf($bookingSession);
 
         //Traitement du formulaire
         if ($formBooking->isSubmitted() && $formBooking->isValid())
@@ -99,79 +97,38 @@ class TicketController extends Controller
             $token = $_POST['stripeToken'];
             Stripe::setApiKey('sk_test_i8AYP4qMtuAMTkYOBH3uLhZR');
             $stripeinfo = \Stripe\Token::retrieve($token);
-            $email = $stripeinfo->email;
+            $userEmail = $stripeinfo->email;
 
             //Hydratation manuelle de $booking avec booking session
-            $booking->setUrl($email);
-            $booking->setVisitingDay($bookingSession->getVisitingDay());
-            $booking->setTotalPrice($bookingSession->getTotalPrice());
-            $booking->setHalfDay($bookingSession->getHalfDay());
+            $bookingPriced->setUrl($userEmail);
+            $bookingPriced->setLastnameBooking($booking->getLastnameBooking());
+            $bookingPriced->setFirstnameBooking($booking->getFirstnameBooking());
+            $bookingPriced->setVisitingDay($bookingSession->getVisitingDay());
+            $bookingPriced->setTotalPrice($bookingSession->getTotalPrice());
+            $bookingPriced->setHalfDay($bookingSession->getHalfDay());
             $allTickets = $bookingSession->getTickets();
             foreach ($allTickets as $ticket)
             {
-                $booking->addTicket($ticket);
+                $bookingPriced->addTicket($ticket);
             }
 
             $em = $this->getDoctrine()->getManager();
-            $em->persist($booking);
+            $em->persist($bookingPriced);
             $em->flush();
 
-
-            //Préparation du body en html Pour l'envois d'email
-            function createMailBody($booking, $allTickets)
-            {
-                $halfDay= "";
-                if (($booking->getHalfday()) ==true)
-                {
-                    $halfDay = "Demi-journée";
-                    return $halfDay;
-                }
-
-                $nTicket = 1;
-                foreach ($allTickets as $ticket)
-                {
-                    //Préparation des variables pour chaque billet
-                    $nom = $ticket->getLastname();
-                    $prenom = $ticket->getFirstname();
-                    $dateVisite = $ticket->getDate();
-                    $dateVisiteFr = date_format($dateVisite, 'd/m/Y');
-                    function afficherReduction($ticket)
-                    {
-                        $discount = $ticket->getDiscount();
-                        if ($discount == true)
-                        {
-                            return "Réduction : Oui. A justifier à l'accueil du Louvre";
-
-                        }else{
-                            return "Réduction: Pas de réduction.";
-                        }
-                    }
-                    $discountMsg = afficherReduction($ticket);
-
-
-                    //Calcul de l'âge du client
-                    $birthday = $ticket->getBirthday();
-                    $today = new \Datetime();
-                    $interval = date_diff($birthday, $today);
-                    $age = $interval->y;
-                    $prix = $ticket->getPrice();
-
-                    // Pour chaque billet: $halfDay, $nom, $prenom, $age, $dateVisite, $prix,  $discountMsg
-                    $message = "<h2>Billet n°" . $nTicket . ":</h2>" ."<h3>Billet valable le : " . $dateVisiteFr . " </h3>" ."<h4>Type de billet : " . $halfDay . "</h4> <br> <p> Nom: " . $nom . ". <br> Prénom: " . $prenom . "<br> Age : " . $age . " an(s) <br>" . "Tarif : " . $prix . "€ </p><p><strong>" . $discountMsg . "</strong></p><br>" ;
-                    return $message;
-                }
-            }
-
-            //Création de l'email
-            $billets = createMailBody($booking, $allTickets);
-            $body = "<h1>Voici vos billets: </h1>" . $billets . "<br><br>";
-
-            //Envois du message
             $message = (new \Swift_Message('Vos billets pour le Louvre'))
-                ->setFrom('chugustudio@gmail.com')
-                ->setTo($email)
-                ->setBody($billets, 'text/html');
-            $this->get('mailer')->send($message);
+                ->setFrom(array('chugustudio@gmail.com'=>"Le Louvre"))
+                ->setTo($userEmail)
+                ->setCharset('utf-8')
+                ->setContentType('text/html')
+                ->setBody($this->renderView('LouvreTicketBundle:Emails:email.html.twig'));
+
+            var_dump($message);
+            var_dump($userEmail);
+
+            $this->container->get('mailer')->send($message);
+
+
 
 
             $request->getSession()->getFlashBag()->add('success', 'Booking à bien enregistré.');
@@ -202,8 +159,9 @@ class TicketController extends Controller
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }else{
-            return new Response("Va t'en!!!!");
+            return new Response("Erreur");
         }
 
     }
+
 }

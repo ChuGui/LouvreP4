@@ -1,0 +1,18 @@
+{#<h1>Bonjour {{ prenomAcheteur }} {{ nomAcheteur }}</h1>#}
+
+<h2>Voici vos billets pour le Louvre</h2>
+
+<p>Il seront à présenter au guichet du Louvre en guise de preuve d'achat, avec justificatifs necessaires si un réduction
+    est appliquée</p>
+
+{#
+{% for billet in billets %}
+
+<div>
+    <br>
+        {{ billet }}
+    <br>
+</div>
+<br>
+
+{% endfor %}#}

@@ -54,6 +54,6 @@ class CalculatePrice
         }
         $booking->setTotalPrice($totalPrice);
 
-        return $totalPrice;
+        return $booking;
     }
 }

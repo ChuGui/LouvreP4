@@ -1,3 +1,6 @@
 services:
     louvre.calculatePrice:
         class: Louvre\TicketBundle\Service\Price\CalculatePrice
+
+    louvre.sendEmail:
+        class: Louvre\TicketBundle\Service\Mail\SendEmail
