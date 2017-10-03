@@ -24,7 +24,6 @@ class BookingType extends AbstractType
     {
         $builder
             ->add('visitingDay', DateType::class, array(
-                'label' => 'Choisissez votre jour de visite',
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
                 'attr' => [

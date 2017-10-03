@@ -1,31 +1,39 @@
 /*php bin/console asset:install --symlink*/
-body
-{
+body {
     background: url("../img/louvreByNight.jpg") no-repeat center fixed;
     background-size: cover;
 }
-#navbar
+
+#content {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.well
 {
+    background-color: rgba(253, 253, 253, 0.88);
+}
+
+#navbar {
     overflow: hidden;
     position: relative;
-    height: 10%;
+    height: 4em;
     background-image: url("../img/linesBG.png");
 }
 
-#navbar-header
-{
+#navbar-header {
     center: left;
 }
 
-#logo
-{
+#logo {
     color: white;
     font-size: 3em;
 
 }
 
-#balises
-{
+#balises {
     text-align: center;
     height: 100%;
     position: absolute;
@@ -33,19 +41,22 @@ body
     top: 0;
 }
 
-.indicateur
-{
+.indicateur {
     background-color: #c6c7c2;
     border-radius: 5px;
 }
 
-.glyphicon-triangle-right
-{
+.glyphicon-triangle-right {
     margin-top: 15px;
 }
 
-.nav-pills>li {
+.nav-pills > li {
     margin-top: 5px;
+}
+
+.title {
+    color: #FFFFFF;
+    text-shadow: -1px 0 grey, 0 1px grey, 1px 0 grey, 0 -1px grey;
 }
 
 @media screen and (max-width: 1095px) {

@@ -31,20 +31,22 @@
                 <li role="presentation" class="col-md-3" id="confirmationBalise" style="pointer-events: none;cursor: default;"><a href="#"> <span class="badge">3</span> Confirmation</a></li>
             </ul>
         </div>
-
     </div>
 </nav>
 
-{% block header %}{% endblock %}
-</div>
-<div id="content" class="col-md-9">
+
+<div id="content">
+
     {% block body %}
+
+        {% block header %}{% endblock %}
+
     {% endblock %}
 </div>
 </div>
 
 <hr>
-
+<div>
 <footer>
     <h1>Footer.</h1>
 </footer>
