@@ -19,3 +19,7 @@
     </div>
 {% endblock %}
 
+ {% block javascripts %}
+     {{ parent() }}
+     <script type="text/javascript" src="{{ asset('bundles/louvreTicket/js/recap.js') }}"></script>
+ {% endblock %}

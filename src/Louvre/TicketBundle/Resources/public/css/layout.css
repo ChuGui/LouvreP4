@@ -1,0 +1,46 @@
+/*php bin/console asset:install --symlink*/
+
+
+#navbar
+{
+    overflow: hidden;
+    position: relative;
+    height: 10%;
+    background-image: url("../img/linesBG.png");
+}
+
+#navbar-header
+{
+    center: left;
+}
+
+#logo
+{
+    color: white;
+    font-size: 3em;
+
+}
+
+#balises
+{
+    text-align: center;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.indicateur
+{
+    background-color: #c6c7c2;
+    border-radius: 5px;
+}
+
+.glyphicon-triangle-right
+{
+    margin-top: 15px;
+}
+
+.nav-pills>li {
+    margin-top: 5px;
+}

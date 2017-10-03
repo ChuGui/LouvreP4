@@ -1,0 +1,1 @@
+$("#confirmationBalise").addClass("active");

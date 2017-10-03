@@ -124,9 +124,9 @@ class TicketController extends Controller
                 ->setBody($this->renderView('LouvreTicketBundle:Emails:email.html.twig'));
 
             var_dump($message);
-            var_dump($userEmail);
 
             $this->container->get('mailer')->send($message);
+
 
 
 

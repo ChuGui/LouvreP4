@@ -69,5 +69,6 @@ jQuery(function($)
 
         }
     );
+    $("#selectionBalise").addClass("active");
 
 })
