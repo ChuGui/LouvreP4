@@ -5,15 +5,11 @@
 
 {% block stylesheets %}
     {{ parent() }}
-
-
-
-
+    <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 {% endblock %}
 
 {% block body %}
     {% block header %}  {% endblock %}
-    {% block home %}active {% endblock %}
     <br>
     <div class="danger alert-danger">
         {% for flashMessage in app.session.flashbag.get('notice') %}

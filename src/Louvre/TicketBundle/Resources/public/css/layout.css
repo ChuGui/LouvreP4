@@ -1,6 +1,9 @@
 /*php bin/console asset:install --symlink*/
-
-
+body
+{
+    background: url("../img/louvreByNight.jpg") no-repeat center fixed;
+    background-size: cover;
+}
 #navbar
 {
     overflow: hidden;
@@ -43,4 +46,10 @@
 
 .nav-pills>li {
     margin-top: 5px;
+}
+
+@media screen and (max-width: 1095px) {
+    #balises {
+        display: none;
+    }
 }
