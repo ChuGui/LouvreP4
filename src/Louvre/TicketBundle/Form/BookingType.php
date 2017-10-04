@@ -47,7 +47,9 @@ class BookingType extends AbstractType
             ->add('url', EmailType::class)
             ->add('lastnameBooking',textType::class)
             ->add('firstnameBooking', textType::class)
-            ->add('next', SubmitType::class);
+            ->add('next', SubmitType::class, array(
+                'label' => 'Passer au paiement'
+            ));
 
     }
 

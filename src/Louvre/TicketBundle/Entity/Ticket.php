@@ -44,7 +44,7 @@ class Ticket
     private $firstname;
 
     /**
-     * @var string
+     * @var stringM
      *
      * @ORM\Column(name="date", type="date")
      */

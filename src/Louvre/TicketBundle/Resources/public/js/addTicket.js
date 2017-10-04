@@ -14,6 +14,7 @@ $(document).ready(function() {
 
              // évite qu'un # apparaisse dans l'URL
             e.preventDefault();
+            return false;
 
         });
 
@@ -49,7 +50,7 @@ $(document).ready(function() {
         // La fonction qui ajoute un lien de suppression d'une catégorie
         function addDeleteLink(divElt) {
             // Création du lien
-            var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+            var $deleteLink = $('<p><a href="#" class="btn btn-danger" style="float: right;">Supprimer</a></p>');
 
             // Ajout du lien
             divElt.append($deleteLink);
