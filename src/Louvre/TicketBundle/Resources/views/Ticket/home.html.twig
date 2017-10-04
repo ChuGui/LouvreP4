@@ -6,6 +6,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/louvreticket/css/home.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -22,8 +23,7 @@
     <br>
     <div class="well">
         {{ form_start(formBooking, {'attr' : {'class' : 'form-inline', 'novalidate': 'novalidate'}}) }}
-        {{ form_label(formBooking.visitingDay, 'Saississez une date de visite') }}
-        {{ form_row(formBooking.visitingDay, {'attr': {'id' : 'datepicker', 'name' : 'datepicker'}}) }}
+        {{ form_row(formBooking.visitingDay, {'attr': {'id' : 'datepicker', 'name' : 'datepicker', 'placeholder' : 'JJ/MM/AAAA'}}) }}
         <br>
         <span id="infoNbTicket" class="alert alert-info fade in">Hello</span>
         {{ form_row(formBooking.halfday) }}

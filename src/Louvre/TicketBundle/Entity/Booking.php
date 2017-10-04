@@ -271,8 +271,6 @@ class Booking
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
-        $this->visitingDay = new \Datetime();
-
     }
 
     /**
