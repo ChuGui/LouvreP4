@@ -35,6 +35,7 @@ class Booking
      * @var string $lastnameBooking
      *
      * @ORM\Column(name="lastnameBooking", type="string", length=255)
+     *
      */
     private $lastnameBooking;
 
@@ -59,19 +60,6 @@ class Booking
      */
     private $bookingCode;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="halfday", type="boolean")
-     */
-    private $halfday;
-
-    /**
-     * @var \date
-     *
-     * @ORM\Column(name="visitingDay", type="date")
-     */
-    private $visitingDay;
 
     /**
      * @var \DateTime
@@ -192,53 +180,6 @@ class Booking
         return $this->bookingCode;
     }
 
-    /**
-     * Set $this->halfday
-     *
-     * @param boolean $$this->halfday
-     *
-     * @return Booking
-     */
-    public function setHalfday($halfday)
-    {
-        $this->halfday = $halfday;
-
-        return $this;
-    }
-
-    /**
-     * Get $this->halfday
-     *
-     * @return boolean
-     */
-    public function getHalfday()
-    {
-        return $this->halfday;
-    }
-
-    /**
-     * Set visitingDay
-     *
-     * @param \DateTime $visitingDay
-     *
-     * @return Booking
-     */
-    public function setVisitingDay($visitingDay)
-    {
-        $this->visitingDay = $visitingDay;
-
-        return $this;
-    }
-
-    /**
-     * Get visitingDay
-     *
-     * @return \DateTime
-     */
-    public function getVisitingDay()
-    {
-        return $this->visitingDay;
-    }
 
     /**
      * Set buyingDay

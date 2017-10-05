@@ -33,20 +33,22 @@ class BookingType extends AbstractType
 
                 ]
             ))
-
-
             ->add('halfday', CheckboxType::class, array(
                 'required' => false,
                 'label' => 'Cochez la case si vous voulez des billets pour la demi-journée  (après 14h00)'
             ))
-            ->add('tickets', CollectionType::class,array(
+            ->add('tickets', CollectionType::class, array(
                 'entry_type' => TicketType::class,
                 'allow_add' => true,
                 'allow_delete' => true
             ))
             ->add('url', EmailType::class)
-            ->add('lastnameBooking',textType::class)
-            ->add('firstnameBooking', textType::class)
+            ->add('lastnameBooking', textType::class, array(
+                'label' => 'Nom',
+            ))
+            ->add('firstnameBooking', textType::class, array(
+                'label' => 'Prenom',
+            ))
             ->add('next', SubmitType::class, array(
                 'label' => 'Passer au paiement'
             ));

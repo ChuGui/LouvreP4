@@ -50,10 +50,11 @@ $(document).ready(function() {
         // La fonction qui ajoute un lien de suppression d'une catégorie
         function addDeleteLink(divElt) {
             // Création du lien
-            var $deleteLink = $('<p><a href="#" class="btn btn-danger" style="float: right;">Supprimer</a></p>');
+            var $deleteLink = $('<p><a href="#" class="btn btn-danger" style="float: right;bottom: 60px;position: relative;">Supprimer</a></p>');
 
             // Ajout du lien
             divElt.append($deleteLink);
+
 
             // Ajout du listener sur le clic du lien pour effectivement supprimer la catégorie
             $deleteLink.click(function(e) {

@@ -81,6 +81,17 @@ class Ticket
     private $price;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="typeOfVisit", type="string", lenght=4)
+     */
+    private $typeOfVisite;
+
+    /**
+     * @ var date
+     */
+
+    /**
      * Many tickets have one Booking
      * @ORM\ManyToOne(targetEntity="Louvre\TicketBundle\Entity\Booking", inversedBy="tickets")
      * @ORM\JoinColumn(name="booking_id", referencedColumnName="id", nullable=false)

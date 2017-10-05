@@ -6,6 +6,7 @@ namespace Louvre\TicketBundle\Controller;
 use Louvre\TicketBundle\Entity\Booking;
 use Louvre\TicketBundle\Entity\Ticket;
 use Stripe\Stripe;
+use Stripe\Error\Card;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Louvre\TicketBundle\Form\BookingType;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +26,9 @@ class TicketController extends Controller
         $formBooking = $this->createForm(BookingType::class, $booking);
         $formBooking->handleRequest($request);
 
+        //Injection de valeur par défault pour les constraint de doctrine
+
+
         //Traitement du formulaire
         if ($formBooking->isSubmitted() && $formBooking->isValid()) {
 
@@ -32,9 +36,8 @@ class TicketController extends Controller
             $today = date('Y-m-d');
             $time = intval(date('H'));
             $visitingDay = $booking->getVisitingDay();
-            $visitingDate= date_format($visitingDay,('Y-m-d'));
-            if(($visitingDate == $today)&&($time>13))
-            {
+            $visitingDate = date_format($visitingDay, ('Y-m-d'));
+            if (($visitingDate == $today) && ($time > 13)) {
                 $booking->setHalfday(true);
             }
 
@@ -51,8 +54,7 @@ class TicketController extends Controller
             $totalTickets = $remaining - $newTicketsAdded;
 
             //Filtre du nombre de tickets
-            if($totalTickets < 0)
-            {
+            if ($totalTickets < 0) {
 
                 $this->get('session')->getFlashBag()
                     ->add('notice', 'Vous avez saisi un trop grand nombre de billets.');
@@ -61,7 +63,7 @@ class TicketController extends Controller
                     'formBooking' => $formBooking->createView(),
                     'remainingTicket' => $remaining
                 ));
-            }else{
+            } else {
                 $bookingSession = new Session();
                 $bookingSession->set('booking', $booking);
 
@@ -73,7 +75,6 @@ class TicketController extends Controller
             'formBooking' => $formBooking->createView()
         ));
     }
-
 
     public function stripeAction(Request $request)
     {
@@ -89,6 +90,8 @@ class TicketController extends Controller
         $calculatePrice = $this->container->get('louvre.calculatePrice');
         // $bookingPriced est l'objet booking une fois le prix calculé
         $bookingPriced = $calculatePrice->totalPriceOf($bookingSession);
+        $chargeCents = ($bookingSession->getTotalPrice()) * 100;
+
 
         //Traitement du formulaire
         if ($formBooking->isSubmitted() && $formBooking->isValid())
@@ -98,7 +101,6 @@ class TicketController extends Controller
             Stripe::setApiKey('sk_test_i8AYP4qMtuAMTkYOBH3uLhZR');
             $stripeinfo = \Stripe\Token::retrieve($token);
             $userEmail = $stripeinfo->email;
-
             //Hydratation manuelle de $booking avec booking session
             $bookingPriced->setUrl($userEmail);
             $bookingPriced->setLastnameBooking($booking->getLastnameBooking());
@@ -111,46 +113,35 @@ class TicketController extends Controller
             {
                 $bookingPriced->addTicket($ticket);
             }
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($bookingPriced);
             $em->flush();
-
             $message = (new \Swift_Message('Vos billets pour le Louvre'))
                 ->setFrom(array('chugustudio@gmail.com'=>"Le Louvre"))
                 ->setTo($userEmail)
                 ->setCharset('utf-8')
                 ->setContentType('text/html')
                 ->setBody($this->renderView('LouvreTicketBundle:Emails:email.html.twig'));
-
             var_dump($message);
-
             $this->container->get('mailer')->send($message);
-
-
-
-
-
             $request->getSession()->getFlashBag()->add('success', 'Booking à bien enregistré.');
             return $this->redirectToRoute('louvre_ticket_recap');
         }
 
-
-        return $this->render('LouvreTicketBundle:Ticket:stripe.html.twig',array(
+        return $this->render('LouvreTicketBundle:Ticket:stripe.html.twig', array(
+            'bookingPriced' => $bookingPriced,
             'formBooking' => $formBooking->createView()));
     }
 
     public function recapAction(Request $request)
     {
 
-        return $this->render("LouvreTicketBundle:Ticket:recap.html.twig", array(
-
-        ));
+        return $this->render("LouvreTicketBundle:Ticket:recap.html.twig", array());
     }
 
     public function ticketsRemainingAction(Request $request)
     {
-        if($request->isXmlHttpRequest()) {
+        if ($request->isXmlHttpRequest()) {
             $date = htmlspecialchars($request->query->get('date'));
             $em = $this->getDoctrine()->getManager();
             $repository = $em->getRepository('LouvreTicketBundle:Ticket');
@@ -158,7 +149,7 @@ class TicketController extends Controller
             $response = new Response(json_encode($ticketsRemaining));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
-        }else{
+        } else {
             return new Response("Erreur");
         }
 
