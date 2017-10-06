@@ -26,26 +26,23 @@ class TicketType extends AbstractType
             ->add('firstname', TextType::class, array(
                 'label' => 'Prénom'
             ))
-
             ->add('birthday', BirthdayType::class, array(
                 'widget' => 'choice',
                 'format' => 'dd-MM-yyyy',
                 'label' => 'Date de naissance',
-                'constraints' =>array(
+                'constraints' => array(
                     new Assert\Date(),
-    )
+                )
             ))
-            ->add('country',CountryType::class, array(
+            ->add('country', CountryType::class, array(
                 'label' => 'Pays'
             ))
             ->add('discount', CheckboxType::class, array(
                 'label' => "Cochez cette case si vous êtes étudiant, employé du musée, d’un service du Ministère de la Culture, militaire (A justifier à l'entrée du Louvre)",
                 'required' => false
-            ))
-
-        ;
+            ));
     }
-    
+
     /**
      * {@inheritdoc}
      */

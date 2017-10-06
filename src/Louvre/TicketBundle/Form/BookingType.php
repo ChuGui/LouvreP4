@@ -27,7 +27,6 @@ class BookingType extends AbstractType
                 'attr' => [
                     'class' => 'js-datepicker',
                     'html5' => false,
-
                 ]
             ))
             ->add('halfday', CheckboxType::class, array(
@@ -38,6 +37,7 @@ class BookingType extends AbstractType
                 'entry_type' => TicketType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
+
                 'by_reference' =>false
             ))
             ->add('next', SubmitType::class, array(
@@ -52,7 +52,8 @@ class BookingType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Louvre\TicketBundle\Entity\Booking'
+            'data_class' => 'Louvre\TicketBundle\Entity\Booking',
+
         ));
     }
 
