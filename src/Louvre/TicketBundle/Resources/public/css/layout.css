@@ -9,6 +9,7 @@ body {
     width: 75%;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 5em;
 
 }
 
@@ -19,7 +20,6 @@ body {
 
 #navbar {
     overflow: hidden;
-    position: relative;
     height: 4em;
     background-image: url("../img/linesBG.png");
 }

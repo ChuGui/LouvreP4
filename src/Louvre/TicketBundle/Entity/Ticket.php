@@ -44,7 +44,7 @@ class Ticket
     private $firstname;
 
     /**
-     * @var stringM
+     * @var string
      *
      * @ORM\Column(name="date", type="date")
      */
@@ -79,17 +79,6 @@ class Ticket
      * @ORM\Column(name="price", type="integer")
      */
     private $price;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="typeOfVisit", type="string", lenght=4)
-     */
-    private $typeOfVisite;
-
-    /**
-     * @ var date
-     */
 
     /**
      * Many tickets have one Booking

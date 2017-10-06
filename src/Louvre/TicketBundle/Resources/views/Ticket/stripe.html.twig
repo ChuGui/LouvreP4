@@ -21,11 +21,10 @@
             <h1> Paiement sécurisé <span class="glyphicon glyphicon-lock"></span></h1>
 
             <h2 class="alert alert-success">Prix total de la commande: {{ bookingPriced.totalPrice }}€ </h2>
-
-            {{ form_start(formBooking)}}
+            {{ form_start(formIdentity)}}
 
             <div class="formElements">
-                <span class="col-md-6">{{ form_row(formBooking.lastnameBooking) }}</span><span class="col-md-6">{{ form_row(formBooking.firstnameBooking) }}</span>
+                <span class="col-md-6">{{ form_row(formIdentity.lastnameBooking) }}</span><span class="col-md-6">{{ form_row(formIdentity.firstnameBooking) }}</span>
             </div>
 
                 <script
@@ -43,12 +42,7 @@
                         data-allowRememberMe="false"
                 >
                 </script>
-            {% do formBooking.url.setRendered %}
-            {% do formBooking.tickets.setRendered %}
-            {% do formBooking.halfday.setRendered %}
-            {% do formBooking.visitingDay.setRendered %}
-            {% do formBooking.next.setRendered %}
-            {{ form_end (formBooking) }}
+            {{ form_end (formIdentity) }}
 
         </div>
 

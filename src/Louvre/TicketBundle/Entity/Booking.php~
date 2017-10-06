@@ -35,6 +35,7 @@ class Booking
      * @var string $lastnameBooking
      *
      * @ORM\Column(name="lastnameBooking", type="string", length=255)
+     *
      */
     private $lastnameBooking;
 
@@ -59,19 +60,6 @@ class Booking
      */
     private $bookingCode;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="fullday", type="boolean")
-     */
-    private $fullday;
-
-    /**
-     * @var \date
-     *
-     * @ORM\Column(name="visitingDay", type="date")
-     */
-    private $visitingDay;
 
     /**
      * @var \DateTime
@@ -80,12 +68,6 @@ class Booking
      */
     private $buyingDay;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="$nbTickets", type="integer")
-     */
-    private $nbTickets;
 
     /**
      * @ORM\OneToMany(targetEntity="Louvre\TicketBundle\Entity\Ticket", mappedBy="booking", cascade={"persist"}))
@@ -105,12 +87,6 @@ class Booking
     {
         $this->setBuyingDay(new \DateTime());
     }
-
-    public function increaseApplication()
-    {
-        $this->nbTickets++;
-    }
-
 
 
     /**
@@ -204,53 +180,6 @@ class Booking
         return $this->bookingCode;
     }
 
-    /**
-     * Set fullday
-     *
-     * @param boolean $fullday
-     *
-     * @return Booking
-     */
-    public function setFullday($fullday)
-    {
-        $this->fullday = $fullday;
-
-        return $this;
-    }
-
-    /**
-     * Get fullday
-     *
-     * @return boolean
-     */
-    public function getFullday()
-    {
-        return $this->fullday;
-    }
-
-    /**
-     * Set visitingDay
-     *
-     * @param \DateTime $visitingDay
-     *
-     * @return Booking
-     */
-    public function setVisitingDay($visitingDay)
-    {
-        $this->visitingDay = $visitingDay;
-
-        return $this;
-    }
-
-    /**
-     * Get visitingDay
-     *
-     * @return \DateTime
-     */
-    public function getVisitingDay()
-    {
-        return $this->visitingDay;
-    }
 
     /**
      * Set buyingDay
@@ -283,8 +212,6 @@ class Booking
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
-        $this->visitingDay = new \Datetime();
-        $this->quantity = 1;
     }
 
     /**
@@ -297,6 +224,7 @@ class Booking
     public function addTicket(\Louvre\TicketBundle\Entity\Ticket $ticket)
     {
         $this->tickets[] = $ticket;
+        $ticket->setBooking($this);
 
         return $this;
     }
@@ -370,4 +298,5 @@ class Booking
     {
         return $this->firstnameBooking;
     }
+
 }

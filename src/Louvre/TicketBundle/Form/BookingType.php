@@ -2,17 +2,13 @@
 
 namespace Louvre\TicketBundle\Form;
 
-use function PHPSTORM_META\type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 class BookingType extends AbstractType
@@ -27,9 +23,10 @@ class BookingType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
                 'label' => 'Saisissez une date',
+                'required' => true,
                 'attr' => [
                     'class' => 'js-datepicker',
-                    'html5' => false
+                    'html5' => false,
 
                 ]
             ))
@@ -40,14 +37,8 @@ class BookingType extends AbstractType
             ->add('tickets', CollectionType::class, array(
                 'entry_type' => TicketType::class,
                 'allow_add' => true,
-                'allow_delete' => true
-            ))
-            ->add('url', EmailType::class)
-            ->add('lastnameBooking', textType::class, array(
-                'label' => 'Nom',
-            ))
-            ->add('firstnameBooking', textType::class, array(
-                'label' => 'Prenom',
+                'allow_delete' => true,
+                'by_reference' =>false
             ))
             ->add('next', SubmitType::class, array(
                 'label' => 'Passer au paiement'

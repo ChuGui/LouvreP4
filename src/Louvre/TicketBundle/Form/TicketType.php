@@ -26,6 +26,7 @@ class TicketType extends AbstractType
             ->add('firstname', TextType::class, array(
                 'label' => 'Prénom'
             ))
+
             ->add('birthday', BirthdayType::class, array(
                 'widget' => 'choice',
                 'format' => 'dd-MM-yyyy',

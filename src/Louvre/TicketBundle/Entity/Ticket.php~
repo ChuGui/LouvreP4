@@ -46,9 +46,9 @@ class Ticket
     /**
      * @var string
      *
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(name="visitingDay", type="date")
      */
-    private $date;
+    private $visitingDay;
 
 
 
@@ -81,8 +81,17 @@ class Ticket
     private $price;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="typeOfVisit", type="string", length=4)
+     */
+    private $typeOfVisite;
+
+
+    /**
+     * Many tickets have one Booking
      * @ORM\ManyToOne(targetEntity="Louvre\TicketBundle\Entity\Booking", inversedBy="tickets")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="booking_id", referencedColumnName="id", nullable=false)
      */
     private $booking;
 
@@ -159,21 +168,21 @@ class Ticket
      *
      * @return Ticket
      */
-    public function setDate($date)
+    public function setVisitingDay($visitingDay)
     {
-        $this->date = $date;
+        $this->visitingDay = $visitingDay;
 
         return $this;
     }
 
     /**
-     * Get date
+     * Get visitingDay
      *
      * @return \DateTime
      */
-    public function getDate()
+    public function getVisitingDay()
     {
-        return $this->date;
+        return $this->visitingDay;
     }
 
     /**
