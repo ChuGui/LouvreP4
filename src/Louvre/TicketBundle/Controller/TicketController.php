@@ -28,8 +28,7 @@ class TicketController extends Controller
         if ($formBooking->isSubmitted() && $formBooking->isValid()) {
             //Si la date n'est pas renseigné retour à la page d'accueil
             if ($booking->getVisitingDay() == null) {
-                $this->get('session')->getFlashBag()
-                    ->add('missingDate', 'Vous devez saisir une date de visite.');
+                $this->get('session')->getFlashBag()->add('missingDate', 'Vous devez saisir une date de visite.');
                 return $this->render('LouvreTicketBundle:Ticket:home.html.twig', array(
                     'formBooking' => $formBooking->createView()
                 ));
@@ -80,8 +79,8 @@ class TicketController extends Controller
     {
         //Appel de la session récupération de l'objet booking de type Booking
         $bookingSession = $this->get('session')->get('booking');
-        $identity = new Booking();
         var_dump($bookingSession);
+        $identity = new Booking();
         //Création du formulaire à partir de l'objet $booking instance de Booking
         $formIdentity = $this->createForm(IdentityType::class, $identity);
         $formIdentity->handleRequest($request);

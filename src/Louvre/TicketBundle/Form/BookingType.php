@@ -36,9 +36,7 @@ class BookingType extends AbstractType
             ->add('tickets', CollectionType::class, array(
                 'entry_type' => TicketType::class,
                 'allow_add' => true,
-                'allow_delete' => true,
-
-                'by_reference' =>false
+                'allow_delete' => true
             ))
             ->add('next', SubmitType::class, array(
                 'label' => 'Passer au paiement'
