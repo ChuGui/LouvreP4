@@ -50,8 +50,6 @@ class Ticket
      */
     private $date;
 
-
-
     /**
      * @var bool
      *
@@ -80,16 +78,7 @@ class Ticket
      */
     private $price;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="typeOfVisit", type="string", lenght=4)
-     */
-    private $typeOfVisite;
 
-    /**
-     * @ var date
-     */
 
     /**
      * Many tickets have one Booking
@@ -309,4 +298,28 @@ class Ticket
     }
 
 
+
+    /**
+     * Set typeOfVisite
+     *
+     * @param string $typeOfVisite
+     *
+     * @return Ticket
+     */
+    public function setTypeOfVisite($typeOfVisite)
+    {
+        $this->typeOfVisite = $typeOfVisite;
+
+        return $this;
+    }
+
+    /**
+     * Get typeOfVisite
+     *
+     * @return string
+     */
+    public function getTypeOfVisite()
+    {
+        return $this->typeOfVisite;
+    }
 }

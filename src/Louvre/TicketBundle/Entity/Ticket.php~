@@ -44,7 +44,7 @@ class Ticket
     private $firstname;
 
     /**
-     * @var string
+     * @var stringM
      *
      * @ORM\Column(name="date", type="date")
      */
@@ -81,8 +81,20 @@ class Ticket
     private $price;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="typeOfVisit", type="string", length=4)
+     */
+    private $typeOfVisite;
+
+    /**
+     * @ var date
+     */
+
+    /**
+     * Many tickets have one Booking
      * @ORM\ManyToOne(targetEntity="Louvre\TicketBundle\Entity\Booking", inversedBy="tickets")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="booking_id", referencedColumnName="id", nullable=false)
      */
     private $booking;
 

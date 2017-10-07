@@ -26,8 +26,6 @@ class TicketController extends Controller
         $formBooking = $this->createForm(BookingType::class, $booking);
         $formBooking->handleRequest($request);
 
-        //Injection de valeur par défault pour les constraint de doctrine
-
 
         //Traitement du formulaire
         if ($formBooking->isSubmitted() && $formBooking->isValid()) {
@@ -66,7 +64,6 @@ class TicketController extends Controller
             } else {
                 $bookingSession = new Session();
                 $bookingSession->set('booking', $booking);
-
                 return $this->redirectToRoute('louvre_ticket_stripe');
             }
         };
