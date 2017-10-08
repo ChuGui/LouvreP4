@@ -80,13 +80,14 @@ class TicketController extends Controller
         //Appel de la session récupération de l'objet booking de type Booking
         $bookingSession = $this->get('session')->get('booking');
         $booking = new Booking();
+        var_dump($bookingSession);
 
         //Création du formulaire à partir de l'objet $booking instance de Booking
         $formBooking = $this->createForm(BookingType::class, $booking);
 
         $formBooking->handleRequest($request);
 
-        $calculatePrice = $this->container6->get('louvre.calculatePrice');
+        $calculatePrice = $this->container->get('louvre.calculatePrice');
         $calculatePrice->totalPriceOf($bookingSession);
 
 
