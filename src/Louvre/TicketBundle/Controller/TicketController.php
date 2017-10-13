@@ -17,6 +17,7 @@ class TicketController extends Controller
 {
     public function homeAction(Request $request)
     {
+
         /*$nbTicket = $repository->getNbTicket(new DateTime());*/
         $booking = new Booking();
         $ticket = new Ticket();
@@ -81,6 +82,7 @@ class TicketController extends Controller
         $bookingSession = $this->get('session')->get('booking');
         $booking = new Booking();
         var_dump($bookingSession);
+
 
         //Création du formulaire à partir de l'objet $booking instance de Booking
         $formBooking = $this->createForm(BookingType::class, $booking);
